@@ -1,11 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -14,9 +8,177 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id        Int      @id @default(autoincrement())
-  name      String
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum Emotion {
+  POSITIVO
+  NEUTRAL
+  NEGATIVO
+}
+
+model Classroom {
+  id          String       @id @default(uuid())
+  name        String
+  students    Student[]
+  enrollments Enrollment[]
+}
+
+model User {
+  id        String   @id @default(uuid())
+  full_name String
   email     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
   createdAt DateTime @default(now())
+  student   Student?
+  teacher   Teacher?
+}
+
+model Student {
+  id           String          @id @default(uuid())
+  nickname     String?
+  age          Int
+  grade        Int
+  risk_score   Int             @default(0)
+  user         User            @relation(fields: [user_id], references: [id])
+  user_id      String          @unique
+  classroom    Classroom       @relation(fields: [classroom_id], references: [id])
+  classroom_id String
+  interactions Interaction[]
+}
+
+model Teacher {
+  id            String        @id @default(uuid())
+  specialty     String
+  assignedGrade Int
+  user          User          @relation(fields: [user_id], references: [id])
+  user_id       String        @unique
+  enrollments   Enrollment[]
+}
+
+model Course {
+  id          String        @id @default(uuid())
+  name        String
+  createdAt   DateTime      @default(now())
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id            String       @id @default(uuid())
+  teacher       Teacher      @relation(fields: [teacher_id], references: [id])
+  teacher_id    String
+  classroom     Classroom    @relation(fields: [classroom_id], references: [id])
+  classroom_id  String
+  course        Course       @relation(fields: [course_id], references: [id])
+  course_id     String
+  activities    Activity[]
+}
+
+model Activity {
+  id             String          @id @default(uuid())
+  title          String
+  description    String
+  hasIntroduction Boolean       @default(true)
+  enrollment     Enrollment      @relation(fields: [enrollment_id], references: [id])
+  enrollment_id  String
+  createdAt      DateTime        @default(now())
+  end_time       DateTime
+  flashcards     Flashcard[]
+  cardsMemory    CardsMemory[]
+  playRelations  PlayRelation[]
+  extraMaterials ExtraMaterial[]
+  quiz           Quiz?
+  interactions   Interaction[]
+}
+
+model Flashcard {
+  id          String   @id @default(uuid())
+  question    String
+  answer      String
+  createdAt   DateTime @default(now())
+  activity    Activity @relation(fields: [activity_id], references: [id])
+  activity_id String
+}
+
+model CardsMemory {
+  id          String   @id @default(uuid())
+  card1       String
+  card2       String
+  isMatched   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  activity    Activity @relation(fields: [activity_id], references: [id])
+  activity_id String
+}
+
+model PlayRelation {
+  id          String   @id @default(uuid())
+  item1       String
+  item2       String
+  isRelated   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  activity    Activity @relation(fields: [activity_id], references: [id])
+  activity_id String
+}
+
+model ExtraMaterial {
+  id          String   @id @default(uuid())
+  title       String
+  url         String
+  createdAt   DateTime @default(now())
+  activity    Activity @relation(fields: [activity_id], references: [id])
+  activity_id String
+}
+
+model Quiz {
+  id             String          @id @default(uuid())
+  createdAt      DateTime        @default(now())
+  activity       Activity        @relation(fields: [activity_id], references: [id])
+  activity_id    String          @unique
+  questions      Question[]
+  questionsOpen  QuestionOpen[]
+  questionsAudio QuestionAudio[]
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  question      String
+  optionA       String
+  optionB       String
+  optionC       String
+  optionD       String
+  correctOption String
+  quiz          Quiz     @relation(fields: [quiz_id], references: [id])
+  quiz_id       String
+}
+
+model QuestionOpen {
+  id        String @id @default(uuid())
+  question  String
+  answer    String
+  quiz      Quiz   @relation(fields: [quiz_id], references: [id])
+  quiz_id   String
+}
+
+model QuestionAudio {
+  id        String @id @default(uuid())
+  question  String
+  audioUrl  String
+  answer    String
+  quiz      Quiz   @relation(fields: [quiz_id], references: [id])
+  quiz_id   String
+}
+
+model Interaction {
+  id          String   @id @default(uuid())
+  emotion     Emotion
+  engagement  Float
+  createdAt   DateTime @default(now())
+  student     Student  @relation(fields: [student_id], references: [id])
+  student_id  String
+  activity    Activity @relation(fields: [activity_id], references: [id])
+  activity_id String
 }
