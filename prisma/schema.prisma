@@ -175,6 +175,7 @@ model QuestionAudio {
 model Interaction {
   id          String   @id @default(uuid())
   emotion     Emotion
+  grade       Int
   engagement  Float
   createdAt   DateTime @default(now())
   student     Student  @relation(fields: [student_id], references: [id])
