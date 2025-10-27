@@ -59,3 +59,4 @@ n8n_data
 ollama_data
 postgres_data
 /generated/prisma
+/prisma/generated
