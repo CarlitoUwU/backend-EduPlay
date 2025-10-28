@@ -9,6 +9,8 @@ import {
   AnalyzeEmotionDto,
   EmotionAnalysisResponseDto,
 } from './dto/analyze-emotion.dto';
+import { ChatDto } from './dto/chat.dto';
+import { ChatResponseDto } from './dto/chat-response.dto';
 
 @ApiTags('AI - Inteligencia Artificial')
 @Controller('ai')
@@ -53,5 +55,19 @@ export class AiController {
   ): Promise<EmotionAnalysisResponseDto> {
     return this.aiService.analyzeEmotion(analyzeDto);
   }
-}
 
+  @Post('chat')
+  @ApiOperation({
+    summary: 'Chat conversacional con estudiante',
+    description:
+      'Genera respuestas contextuales del bot para la introducción de actividades y analiza emoción en tiempo real',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Respuesta generada exitosamente con análisis de emoción',
+    type: ChatResponseDto,
+  })
+  async chat(@Body() chatDto: ChatDto): Promise<ChatResponseDto> {
+    return this.aiService.processChat(chatDto);
+  }
+}

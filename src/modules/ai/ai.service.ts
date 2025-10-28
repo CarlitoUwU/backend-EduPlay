@@ -9,6 +9,8 @@ import {
   AnalyzeEmotionDto,
   EmotionAnalysisResponseDto,
 } from './dto/analyze-emotion.dto';
+import { ChatDto } from './dto/chat.dto';
+import { ChatResponseDto } from './dto/chat-response.dto';
 import { Emotion } from '@prisma/client';
 
 @Injectable()
@@ -318,6 +320,133 @@ export class AiService {
       emotion,
       engagement: Number.parseFloat(engagement.toFixed(2)),
       analysis: `Análisis basado en calificación de ${analyzeDto.grade}/10`,
+    };
+  }
+
+  /**
+   * Procesa una conversación de chat con el estudiante durante la introducción
+   * Genera respuestas contextuales y analiza la emoción del estudiante
+   */
+  async processChat(chatDto: ChatDto): Promise<ChatResponseDto> {
+    this.logger.log(
+      `Procesando chat para estudiante ${chatDto.student_id} en actividad ${chatDto.activity_id}`,
+    );
+
+    // 1. Obtener contexto de la actividad
+    const activity = await this.prisma.activity.findUnique({
+      where: { id: chatDto.activity_id },
+      include: {
+        enrollment: {
+          include: {
+            course: true,
+          },
+        },
+      },
+    });
+
+    if (!activity) {
+      throw new HttpException(
+        `Actividad ${chatDto.activity_id} no encontrada`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    // 2. Verificar que el estudiante existe
+    const student = await this.prisma.student.findUnique({
+      where: { id: chatDto.student_id },
+    });
+
+    if (!student) {
+      throw new HttpException(
+        `Estudiante ${chatDto.student_id} no encontrado`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    try {
+      // 3. Llamar al webhook de n8n para generar respuesta conversacional
+      const chatResponse = await fetch(`${this.n8nWebhookUrl}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          activityTitle: activity.title,
+          activityDescription: activity.description,
+          courseName: activity.enrollment.course.name,
+          studentMessage: chatDto.message,
+          conversationHistory: chatDto.conversation_history,
+        }),
+      });
+
+      if (!chatResponse.ok) {
+        throw new Error(`n8n webhook error: ${chatResponse.statusText}`);
+      }
+
+      const { botResponse } = await chatResponse.json();
+
+      // 4. Analizar emoción del mensaje del estudiante
+      const emotionAnalysis = await this.analyzeEmotion({
+        text: chatDto.message,
+        grade: 0, // No hay calificación en introducción
+      });
+
+      // 5. Crear registro de interacción
+      const conversationCount = chatDto.conversation_history.length + 1;
+
+      await this.prisma.interaction.create({
+        data: {
+          student_id: chatDto.student_id,
+          activity_id: chatDto.activity_id,
+          emotion: emotionAnalysis.emotion,
+          engagement: emotionAnalysis.engagement,
+          grade: 0, // Aún no hay calificación
+        },
+      });
+
+      // 6. Determinar si debe continuar la conversación
+      // Criterios: máximo 5 mensajes o engagement alto (>0.7)
+      const shouldContinue =
+        conversationCount < 5 && emotionAnalysis.engagement < 0.75;
+
+      return {
+        botResponse,
+        emotion: emotionAnalysis.emotion,
+        engagement: emotionAnalysis.engagement,
+        shouldContinue,
+        conversationCount,
+      };
+    } catch (error) {
+      this.logger.error(`Error procesando chat: ${error.message}`);
+
+      // Fallback: respuesta genérica
+      return this.generateFallbackChatResponse(activity, chatDto);
+    }
+  }
+
+  /**
+   * Genera respuesta de chat de fallback sin IA
+   */
+  private generateFallbackChatResponse(
+    activity: any,
+    chatDto: ChatDto,
+  ): ChatResponseDto {
+    const conversationCount = chatDto.conversation_history.length + 1;
+
+    const fallbackResponses = [
+      `¡Hola! Vamos a aprender sobre ${activity.title}. ¿Qué te gustaría saber?`,
+      `Interesante. Este tema es fascinante porque conecta con muchas cosas que usas cada día.`,
+      `Perfecto, estás listo para comenzar. ¡Vamos a explorar juntos!`,
+    ];
+
+    const botResponse =
+      fallbackResponses[Math.min(conversationCount - 1, 2)] ||
+      fallbackResponses[0];
+
+    return {
+      botResponse,
+      emotion: Emotion.NEUTRAL,
+      engagement: 0.5,
+      shouldContinue: conversationCount < 3,
+      conversationCount,
     };
   }
 }
