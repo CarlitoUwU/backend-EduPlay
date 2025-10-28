@@ -9,244 +9,215 @@ Backend de la plataforma educativa gamificada **EduPlay** - Sistema de gestión 
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/)
 
 ---
-0
+
 ## 📋 Descripción
 
-**EduPlay** es una plataforma educativa que combina gamificación con inteligencia artificial para crear experiencias de aprendizaje personalizadas. El backend proporciona:
+**EduPlay** es una plataforma educativa que combina gamificación con inteligencia artificial para crear experiencias de aprendizaje personalizadas.
 
-- 🔐 Sistema de autenticación con JWT
-- 👨‍🏫 Gestión de profesores y estudiantes
-- 🏫 Administración de aulas y cursos
-- 🎮 Actividades interactivas (flashcards, juegos de memoria, quiz)
+**Características principales:**
+- 🔐 Autenticación JWT + Bcrypt
+- 👥 Gestión de profesores, estudiantes y aulas
+- 🎮 Actividades gamificadas (flashcards, memoria, quiz)
 - 💭 Tracking de emociones y engagement
-- 📊 Dashboard con analytics para profesores
-- 🤖 Integración con IA (n8n + Ollama) para generación de contenido
-- 📚 API REST completa con Swagger/OpenAPI
+- 📊 Dashboard analytics para profesores
+- 🤖 IA integrada (n8n + Ollama) para generación de contenido
+- 📚 API REST con documentación Swagger/OpenAPI
+- 🐳 Stack completo con Docker Compose
+
+**41 endpoints REST** implementados | **16 modelos de datos** | **8 módulos funcionales**
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerrequisitos
-- Node.js v18+
-- Docker Desktop
-- Git
 
-### Opción A: Setup Automatizado (Recomendado)
+```bash
+node --version    # v18.0.0+
+docker --version  # 20.0.0+
+git --version     # 2.0.0+
+```
+
+### Opción A: Setup Automatizado (Recomendado) ⚡
 
 ```powershell
-# 1. Clonar repositorio
 git clone https://github.com/CarlitoUwU/backend-EduPlay.git
 cd backend-EduPlay
-
-# 2. Ejecutar script de setup automático
 .\setup.ps1
-
-# 3. Iniciar servidor
 npm run start:dev
 ```
+
+✅ **¡Listo!** El script configura todo automáticamente.
 
 ### Opción B: Setup Manual
 
 ```bash
-# 1. Clonar repositorio
+# 1. Clonar y configurar
 git clone https://github.com/CarlitoUwU/backend-EduPlay.git
 cd backend-EduPlay
-
-# 2. Configurar variables de entorno
 cp .env.example .env
 
-# 3. Levantar servicios Docker
+# 2. Docker
 docker-compose up -d
 
-# 4. Instalar dependencias
+# 3. Dependencias y Prisma
 npm install
-
-# 5. Generar Prisma Client (CRÍTICO)
-npx prisma generate
-
-# 6. Aplicar migraciones
+npx prisma generate  # ⚠️ CRÍTICO - Hacer antes de migrations
 npx prisma migrate deploy
 
-# 7. Poblar base de datos
+# 4. Seed y ejecutar
 npm run seed
-
-# 8. Iniciar servidor
 npm run start:dev
 ```
 
-✅ **Backend corriendo en**: http://localhost:3000  
-📚 **Swagger UI**: http://localhost:3000/api/docs
+### Acceder a los servicios:
 
-> ⚠️ **IMPORTANTE**: Siempre ejecuta `npx prisma generate` después de clonar el repositorio o cambiar el schema, ANTES de ejecutar migraciones o seed.
-
----
-
-## 📖 Documentación Completa
-
-📘 **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Guía paso a paso para desplegar en cualquier PC  
-🐳 **[DOCKER_SETUP.md](./DOCKER_SETUP.md)** - Configuración detallada de Docker services  
-🧪 **[TESTING_GUIDE.md](./TESTING_GUIDE.md)** - Guía de testing de endpoints  
-📊 **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** - Estado del proyecto y roadmap
+| Servicio | URL | Credenciales |
+|----------|-----|--------------|
+| **Backend API** | http://localhost:3000 | - |
+| **Swagger Docs** | http://localhost:3000/api | - |
+| **n8n UI** | http://localhost:5678 | admin / admin123 |
+| **Prisma Studio** | http://localhost:5555 | `npx prisma studio` |
 
 ---
 
 ## 🏗️ Arquitectura
 
-### Stack Tecnológico
-
-| Categoría | Tecnología |
-|-----------|------------|
-| **Framework** | NestJS 11 |
-| **Lenguaje** | TypeScript 5 |
-| **Base de Datos** | PostgreSQL 15 |
-| **ORM** | Prisma 6.18 |
-| **Autenticación** | JWT + Bcrypt |
-| **Documentación** | Swagger/OpenAPI |
-| **Workflows IA** | n8n |
-| **IA Local** | Ollama (phi3/mistral) |
-| **Containerización** | Docker Compose |
-
-### Diagrama de Servicios
-
 ```
-┌─────────────────────────────────────────────────┐
-│                  Backend NestJS                 │
-│                  localhost:3000                 │
-│                                                 │
-│  Modules: Auth, Course, Classroom, Activity,   │
-│  Enrollment, Interaction, Student, Teacher     │
-└──────────┬──────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│         Backend NestJS :3000                 │
+│  41 Endpoints | 8 Módulos | Swagger Docs    │
+└──────────┬───────────────────────────────────┘
            │
            ▼
-┌─────────────────────────────────────────────────┐
-│           Docker Network (n8n_network)          │
-│                                                 │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────┐│
-│  │PostgreSQL│  │   n8n    │  │   Ollama     ││
-│  │  :5432   │  │  :5678   │  │   :11434     ││
-│  │          │  │          │  │              ││
-│  │ eduplay  │  │ Workflows│  │  AI Models   ││
-│  │ n8n (db) │  │ UI + API │  │  (phi3/etc)  ││
-│  └──────────┘  └──────────┘  └──────────────┘│
-└─────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│      Docker Network (n8n_network)            │
+│                                              │
+│  ┌────────────┐ ┌─────────┐ ┌───────────┐ │
+│  │PostgreSQL  │ │  n8n    │ │  Ollama   │ │
+│  │   :5432    │ │ :5678   │ │  :11434   │ │
+│  │            │ │         │ │           │ │
+│  │ • eduplay  │ │ UI+API  │ │ AI Models │ │
+│  │ • n8n (db) │ │Workflows│ │ (phi3)    │ │
+│  └────────────┘ └─────────┘ └───────────┘ │
+└──────────────────────────────────────────────┘
 ```
 
----
-
-## 📦 Módulos Implementados
-
-### 🔐 Auth Module
-**Endpoints**: 1  
-Autenticación con JWT, login, manejo de tokens.
-
-### 📚 Course Module
-**Endpoints**: 5 (CRUD completo)  
-Gestión de cursos educativos.
-
-### 🏫 Classroom Module
-**Endpoints**: 5 (CRUD completo)  
-Administración de aulas y asignación de estudiantes.
-
-### 🎮 Activity Module
-**Endpoints**: 5 (CRUD completo)  
-Actividades con flashcards, juegos de memoria, relaciones y quiz.
-
-### 📝 Enrollment Module
-**Endpoints**: 4  
-Relación entre profesores, aulas y cursos.
-
-### 💭 Interaction Module
-**Endpoints**: 6  
-Tracking de emociones, calificaciones y engagement de estudiantes.
-
-### 👨‍🎓 Student Module
-**Endpoints**: 7  
-Perfil de estudiante, actividades disponibles, historial.
-
-### 👨‍🏫 Teacher Module
-**Endpoints**: 8  
-Dashboard con estadísticas, identificación de riesgo, métricas por aula.
-
-**Total**: **41 endpoints REST**
+**Stack Tecnológico:**
+- **Framework**: NestJS 11 + TypeScript 5
+- **Base de datos**: PostgreSQL 15 + Prisma ORM 6.18
+- **Auth**: JWT + Bcrypt
+- **IA**: n8n (workflows) + Ollama (LLM local)
+- **Docs**: Swagger/OpenAPI
+- **Container**: Docker Compose
 
 ---
 
-## 🗄️ Modelo de Datos
+## 📦 Módulos y Endpoints
 
-El schema de Prisma incluye 16 modelos:
+| Módulo | Endpoints | Descripción |
+|--------|-----------|-------------|
+| **Auth** | 1 | Login con JWT |
+| **Course** | 5 | CRUD de cursos |
+| **Classroom** | 5 | CRUD de aulas |
+| **Activity** | 5 | CRUD de actividades (flashcards, quiz, juegos) |
+| **Enrollment** | 4 | Inscripciones profesor-aula-curso |
+| **Interaction** | 6 | Tracking de emociones, grades y engagement |
+| **Student** | 7 | Perfil, actividades, historial |
+| **Teacher** | 8 | Dashboard, estadísticas, identificación de riesgo |
 
-- `User` (con roles: STUDENT, TEACHER, ADMIN)
-- `Student` / `Teacher`
-- `Classroom` / `Course` / `Enrollment`
-- `Activity` (sesiones de aprendizaje)
-- `Flashcard` / `CardsMemory` / `PlayRelation`
-- `Quiz` / `Question` / `QuestionOpen` / `QuestionAudio`
-- `ExtraMaterial`
-- `Interaction` (con emociones: POSITIVO, NEUTRAL, NEGATIVO)
+**Total: 41 endpoints REST**
 
-Ver `prisma/schema.prisma` para detalles completos.
+### Endpoints principales:
+
+```
+POST   /auth/login              # Login con JWT
+GET    /course                  # Listar cursos
+GET    /classroom               # Listar aulas
+GET    /activity                # Listar actividades
+GET    /student/:id/activities  # Actividades del estudiante
+GET    /teacher/:id/dashboard   # Dashboard completo del profesor
+GET    /interaction/activity/:id/statistics  # Estadísticas de actividad
+```
+
+Ver documentación completa: **http://localhost:3000/api**
+
+---
+
+## 🗄️ Base de Datos
+
+### Modelos de Prisma (16 total)
+
+**Usuarios y Roles:**
+- `User` (STUDENT | TEACHER | ADMIN)
+- `Student` - Perfil estudiante con risk_score
+- `Teacher` - Perfil profesor con specialty
+
+**Organización:**
+- `Classroom` - Aulas con estudiantes
+- `Course` - Cursos educativos
+- `Enrollment` - Relación profesor-aula-curso
+
+**Actividades:**
+- `Activity` - Sesiones de aprendizaje
+- `Flashcard` - Tarjetas de estudio
+- `CardsMemory` - Juego de memoria
+- `PlayRelation` - Juego de relacionar conceptos
+- `ExtraMaterial` - Material adicional
+
+**Evaluación:**
+- `Quiz` - Exámenes
+- `Question` / `QuestionOpen` / `QuestionAudio` - Tipos de preguntas
+
+**Analytics:**
+- `Interaction` - Emociones (POSITIVO | NEUTRAL | NEGATIVO), grades, engagement
+
+Ver schema completo: `prisma/schema.prisma`
 
 ---
 
 ## 🔧 Comandos Disponibles
 
 ### Desarrollo
-
 ```bash
-# Modo desarrollo con hot reload
-npm run start:dev
-
-# Compilar proyecto
-npm run build
-
-# Modo producción
-npm run start:prod
+npm run start:dev        # Hot reload
+npm run build            # Compilar
+npm run start:prod       # Producción
 ```
 
 ### Base de Datos
-
 ```bash
-# Aplicar migraciones
-npx prisma migrate deploy
-
-# Crear nueva migración
-npx prisma migrate dev --name nombre_migracion
-
-# Poblar datos de prueba
-npm run seed
-
-# Abrir Prisma Studio (UI)
-npx prisma studio
+npx prisma generate              # Generar Prisma Client
+npx prisma migrate deploy        # Aplicar migraciones
+npx prisma migrate dev --name X  # Nueva migración
+npx prisma migrate reset         # Resetear DB
+npm run seed                     # Poblar datos
+npx prisma studio                # UI para ver datos (:5555)
 ```
 
 ### Docker
-
 ```bash
-# Levantar servicios
-docker-compose up -d
-
-# Ver logs
-docker-compose logs -f
-
-# Detener servicios
-docker-compose down
-
-# Resetear todo (⚠️ elimina datos)
-docker-compose down -v
+docker-compose up -d             # Levantar servicios
+docker-compose down              # Detener servicios
+docker-compose down -v           # Detener + eliminar volúmenes
+docker-compose logs -f           # Ver logs en vivo
+docker restart postgres_eduplay  # Reiniciar PostgreSQL
+docker restart n8n               # Reiniciar n8n
+docker restart ollama            # Reiniciar Ollama
 ```
 
 ### Testing
-
 ```bash
-# Tests unitarios
-npm run test
+npm run test        # Tests unitarios
+npm run test:e2e    # Tests end-to-end
+npm run test:cov    # Coverage
+```
 
-# Tests e2e
-npm run test:e2e
-
-# Coverage
-npm run test:cov
+### Ollama (IA)
+```bash
+docker exec -it ollama ollama pull phi3    # Descargar modelo
+docker exec -it ollama ollama list         # Listar modelos
+curl http://localhost:11434/api/tags       # Ver modelos (API)
 ```
 
 ---
@@ -255,91 +226,141 @@ npm run test:cov
 
 Después de ejecutar `npm run seed`:
 
-### Profesor
-- **Email**: maria.garcia@eduplay.com
-- **Password**: password123
+**Profesor:**
+- Email: `maria.garcia@eduplay.com`
+- Password: `password123`
 
-### Estudiantes
-- **Email**: jose.rodriguez@eduplay.com | **Password**: password123
-- **Email**: ana.martinez@eduplay.com | **Password**: password123
+**Estudiantes:**
+- Email: `jose.rodriguez@eduplay.com` | Password: `password123`
+- Email: `ana.martinez@eduplay.com` | Password: `password123`
 
-### n8n UI
-- **URL**: http://localhost:5678
-- **Usuario**: admin
-- **Password**: admin123
+**n8n:**
+- URL: http://localhost:5678
+- Usuario: `admin` | Password: `admin123`
+
+**PostgreSQL:**
+- Host: `localhost:5432`
+- Usuario: `postgres` | Password: `postgres`
+- Databases: `eduplay`, `n8n`
 
 ---
 
-## 📊 APIs Disponibles
+## 🐳 Docker Services
 
-### Core Endpoints
+### PostgreSQL (puerto 5432)
+```yaml
+Contenedor: postgres_eduplay
+Credentials: postgres / postgres
+Databases: eduplay, n8n
+Volume: ./postgres_data
+```
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `POST` | `/auth/login` | Login con JWT |
-| `GET` | `/course` | Listar cursos |
-| `GET` | `/classroom` | Listar aulas |
-| `GET` | `/activity` | Listar actividades |
-| `GET` | `/student/:id/activities` | Actividades de estudiante |
-| `GET` | `/teacher/:id/dashboard` | Dashboard del profesor |
-| `GET` | `/interaction/activity/:id/statistics` | Estadísticas de actividad |
+### n8n (puerto 5678)
+```yaml
+Contenedor: n8n
+UI: http://localhost:5678
+DB: PostgreSQL (database n8n)
+Ollama URL: http://ollama:11434
+```
 
-Ver documentación completa en: **http://localhost:3000/api/docs**
+### Ollama (puerto 11434)
+```yaml
+Contenedor: ollama
+API: http://localhost:11434
+Purpose: Local LLM for AI content generation
+Volume: ./ollama_data
+```
+
+**Network:** `n8n_network` (comunicación interna entre servicios)
 
 ---
 
 ## 🤖 Integración con IA
 
 ### n8n Workflows
-URL: http://localhost:5678
+- **URL**: http://localhost:5678
+- **Casos de uso**:
+  - Generación automática de flashcards desde temas
+  - Creación de preguntas de quiz con múltiples opciones
+  - Análisis de sentimientos en respuestas
+  - Generación de material educativo personalizado
 
-Casos de uso:
-- Generación automática de flashcards
-- Creación de preguntas de quiz
-- Análisis de sentimientos
-- Generación de material educativo
+### Ollama (LLM Local)
+- **URL**: http://localhost:11434
+- **Modelos recomendados**:
+  - `phi3` - Rápido, 2.2GB
+  - `mistral` - Más preciso, 4.1GB
+  - `llama3.2` - Última versión
 
-### Ollama (Local AI)
-URL: http://localhost:11434
-
+**Descargar modelo:**
 ```bash
-# Descargar modelo
 docker exec -it ollama ollama pull phi3
-
-# Listar modelos
-docker exec -it ollama ollama list
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Puerto en uso
-```bash
-# Verificar qué usa el puerto
-netstat -ano | findstr :3000
-netstat -ano | findstr :5432
+### ❌ Error: "Module '@prisma/client' has no exported member 'Emotion'"
+
+**Causa**: Prisma Client no se generó después de clonar el repo.
+
+**Solución**:
+```powershell
+Remove-Item -Recurse -Force node_modules\.prisma
+Remove-Item -Recurse -Force node_modules\@prisma\client
+npx prisma generate
+# Reiniciar TypeScript: Ctrl+Shift+P → "TypeScript: Restart TS Server"
 ```
 
-### Database no existe
-```bash
-# Resetear Docker
+> ⚠️ **Siempre ejecuta `npx prisma generate` después de clonar el repositorio**
+
+### ❌ Error: "Port 5432 is already in use"
+
+**Solución**:
+```powershell
+netstat -ano | findstr :5432  # Ver qué proceso usa el puerto
+# Detener PostgreSQL local o cambiar puerto en docker-compose.yml
+```
+
+### ❌ Error: "Cannot connect to PostgreSQL"
+
+**Solución**:
+```powershell
+docker logs postgres_eduplay     # Ver logs
+docker restart postgres_eduplay  # Reiniciar
+# Esperar 10 segundos y reintentar
+```
+
+### ❌ Error: "Database does not exist"
+
+**Solución**:
+```powershell
 docker-compose down -v
 Remove-Item -Recurse -Force ./postgres_data
 docker-compose up -d
+Start-Sleep -Seconds 15
 npx prisma migrate deploy
 ```
 
-### Errores de Prisma
-```bash
-# Regenerar cliente
-npx prisma generate
+### ❌ Ollama no responde
 
-# Resetear DB
-npx prisma migrate reset
+**Solución**:
+```powershell
+docker ps | findstr ollama              # Verificar que esté corriendo
+docker exec -it ollama ollama list      # Ver modelos instalados
+docker exec -it ollama ollama pull phi3 # Descargar modelo
 ```
 
-Ver más en [DEPLOYMENT.md](./DEPLOYMENT.md#-troubleshooting)
+### ❌ Error de dependencias / TypeScript
+
+**Solución**:
+```powershell
+Remove-Item -Recurse -Force node_modules
+Remove-Item package-lock.json
+npm install
+npx prisma generate
+```
 
 ---
 
@@ -348,58 +369,53 @@ Ver más en [DEPLOYMENT.md](./DEPLOYMENT.md#-troubleshooting)
 ```
 backend-EduPlay/
 ├── prisma/
-│   ├── schema.prisma          # Modelo de datos
-│   ├── seed.ts                # Script de seed
+│   ├── schema.prisma          # Modelo de datos (16 modelos)
+│   ├── seed.ts                # Script de datos de prueba
 │   └── migrations/            # Historial de migraciones
 ├── src/
 │   ├── app/                   # Módulo principal
 │   ├── modules/
-│   │   ├── auth/              # Autenticación JWT
+│   │   ├── auth/              # JWT authentication
 │   │   ├── course/            # Gestión de cursos
 │   │   ├── classroom/         # Gestión de aulas
 │   │   ├── activity/          # Actividades gamificadas
 │   │   ├── enrollment/        # Inscripciones
-│   │   ├── interaction/       # Tracking de emociones
-│   │   ├── student/           # Perfil de estudiante
+│   │   ├── interaction/       # Tracking emociones
+│   │   ├── student/           # Perfil estudiante
 │   │   └── teacher/           # Dashboard profesor
 │   ├── prisma.service.ts      # Servicio Prisma
-│   └── main.ts                # Bootstrap
-├── docker-compose.yml         # Servicios Docker
-├── .env.example               # Variables de entorno ejemplo
-├── DEPLOYMENT.md              # Guía de despliegue
-├── DOCKER_SETUP.md            # Configuración Docker
-└── README.md                  # Este archivo
+│   └── main.ts                # Bootstrap app
+├── docker-compose.yml         # PostgreSQL + n8n + Ollama
+├── setup.ps1                  # Script de setup automático
+├── .env.example               # Template de variables
+├── PROJECT_STATUS.md          # Estado y roadmap
+└── README.md                  # Esta documentación
 ```
 
 ---
 
-## 🤝 Contribuir
+## 🔒 Configuración (.env)
 
-1. Fork el proyecto
-2. Crea una rama (`git checkout -b feature/amazing-feature`)
-3. Commit tus cambios (`git commit -m 'Add amazing feature'`)
-4. Push a la rama (`git push origin feature/amazing-feature`)
-5. Abre un Pull Request
+```env
+# Database
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/eduplay?schema=public"
 
----
+# Server
+PORT=3000
+NODE_ENV=development
 
-## 📄 Licencia
+# JWT
+JWT_SECRET="eduplay_hackathon_secret_2025"
+JWT_EXPIRES_IN="7d"
 
-Este proyecto es parte de un hackathon educativo.
+# n8n
+N8N_WEBHOOK_URL="http://localhost:5678/webhook"
 
----
+# Ollama
+OLLAMA_URL="http://localhost:11434"
+```
 
-## 🌟 Equipo
-
-Desarrollado con ❤️ para **Hack4Edu**
-
----
-
-## 📞 Soporte
-
-- 📚 Documentación: Ver archivos `.md` en el repo
-- 🐛 Issues: [GitHub Issues](https://github.com/CarlitoUwU/backend-EduPlay/issues)
-- 💬 Swagger UI: http://localhost:3000/api/docs
+> ⚠️ En producción, usa un `JWT_SECRET` seguro aleatorio
 
 ---
 
@@ -408,13 +424,39 @@ Desarrollado con ❤️ para **Hack4Edu**
 - ✅ **100% TypeScript** con tipado estricto
 - ✅ **Swagger/OpenAPI** documentación automática
 - ✅ **Prisma ORM** con migraciones versionadas
-- ✅ **Docker Compose** para desarrollo local
-- ✅ **JWT Authentication** seguro con bcrypt
-- ✅ **Seed data** para testing rápido
-- ✅ **41 endpoints REST** completamente funcionales
-- ✅ **Integración IA** lista con n8n + Ollama
-- ✅ **Dashboard analytics** para profesores
-- ✅ **Tracking de emociones** en tiempo real
+- ✅ **Docker Compose** desarrollo local sin configuración
+- ✅ **JWT + Bcrypt** autenticación segura
+- ✅ **Seed data** para testing inmediato
+- ✅ **41 endpoints REST** totalmente funcionales
+- ✅ **IA integrada** lista con n8n + Ollama
+- ✅ **Dashboard analytics** con métricas en tiempo real
+- ✅ **Tracking de emociones** POSITIVO/NEUTRAL/NEGATIVO
+- ✅ **Identificación de riesgo** para estudiantes
+- ✅ **Setup automatizado** con `setup.ps1`
+
+---
+
+## 🤝 Contribuir
+
+1. Fork el proyecto
+2. Crea una rama: `git checkout -b feature/amazing-feature`
+3. Commit: `git commit -m 'Add amazing feature'`
+4. Push: `git push origin feature/amazing-feature`
+5. Abre un Pull Request
+
+---
+
+## 📞 Soporte
+
+- 📚 **Documentación adicional**: [PROJECT_STATUS.md](./PROJECT_STATUS.md)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/CarlitoUwU/backend-EduPlay/issues)
+- 💬 **API Docs**: http://localhost:3000/api
+
+---
+
+## 📄 Licencia
+
+Proyecto desarrollado para **Hack4Edu Hackathon**
 
 ---
 
