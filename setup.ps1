@@ -87,6 +87,14 @@ if (-not $isReady) {
 # 5. CRÍTICO: Generar Prisma Client PRIMERO
 Write-Host ""
 Write-Host "🔧 Generando Prisma Client (CRÍTICO)..." -ForegroundColor Yellow
+
+# Limpiar Prisma Client antiguo para evitar errores de cache
+if (Test-Path "node_modules\.prisma") {
+    Write-Host "   Limpiando Prisma Client antiguo..." -ForegroundColor Cyan
+    Remove-Item -Recurse -Force node_modules\.prisma -ErrorAction SilentlyContinue
+    Remove-Item -Recurse -Force node_modules\@prisma\client -ErrorAction SilentlyContinue
+}
+
 npx prisma generate
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Error al generar Prisma Client" -ForegroundColor Red
