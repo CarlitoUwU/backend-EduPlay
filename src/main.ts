@@ -6,6 +6,14 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Configuración CORS para frontend
+  app.enableCors({
+    origin: ['http://localhost:5173', 'https://edu-play-front.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
