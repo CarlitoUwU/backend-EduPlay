@@ -1,4 +1,4 @@
-# 🎮 EduPlay Backend# 🎮 EduPlay Backend# 🎮 EduPlay Backend# 🎮 EduPlay Backend
+# 🎮 EduPlay Backend# 🎮 EduPlay Backend# 🎮 EduPlay Backend
 
 
 
@@ -6,7 +6,7 @@ Plataforma educativa gamificada con IA integrada para personalización y anális
 
 
 
-[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)Plataforma educativa gamificada con IA integrada para personalización y análisis emocional en tiempo real.
+[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)Plataforma educativa gamificada con IA integrada para personalización y análisis emocional en tiempo real.Plataforma educativa gamificada con IA integrada para personalización y análisis emocional en tiempo real.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 
@@ -14,675 +14,332 @@ Plataforma educativa gamificada con IA integrada para personalización y anális
 
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
 
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/)[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)Plataforma educativa gamificada con IA integrada para personalización y análisis emocional en tiempo real.Plataforma educativa gamificada con IA integrada para personalización y análisis emocional en tiempo real.
+[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)
 
+---
 
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 
----[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+## ✨ Características
 
+[![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?logo=prisma)](https://www.prisma.io/)[![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?logo=prisma)](https://www.prisma.io/)
 
+- 🤖 **IA Generativa**: Contenido educativo automático con Ollama (gemma2:2b)
 
-## ✨ Características Principales[![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?logo=prisma)](https://www.prisma.io/)
+- 💭 **Análisis Emocional**: Tracking en tiempo real de emociones y engagement[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
 
-
-
-- 🤖 **IA Generativa**: Contenido educativo automático con Ollama (gemma2:2b)[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
-
-- 💭 **Análisis Emocional**: Tracking en tiempo real de emociones y engagement
-
-- 💬 **Chat Conversacional**: Asistente motivador para introducir actividades[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)
-
-- 🎮 **Gamificación Completa**: Flashcards, memoria, relaciones, quiz interactivos
-
-- 🔐 **Autenticación Segura**: JWT + Bcrypt con roles (estudiante/profesor/admin)---
-
-- 📊 **Analytics Dashboard**: Métricas de aprendizaje para profesores
-
-- 📚 **API REST Completa**: 72 endpoints documentados con Swagger[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-
-
-
-**Stack Tecnológico:** NestJS 11 + PostgreSQL 15 + Prisma ORM + n8n + Ollama (gemma2:2b)## ✨ Características
-
-
-
----[![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?logo=prisma)](https://www.prisma.io/)[![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?logo=prisma)](https://www.prisma.io/)
-
-
-
-## 🚀 Quick Start- 🤖 **IA Generativa**: Contenido educativo automático con Ollama (gemma2:2b)
-
-
-
-```powershell- 💭 **Análisis Emocional**: Tracking en tiempo real de emociones y engagement[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
-
-# 1. Clonar repositorio
-
-git clone https://github.com/CarlitoUwU/backend-EduPlay.git- 💬 **Chat Conversacional**: Introducciones dinámicas con chatbot motivador
-
-cd backend-EduPlay
+- 💬 **Chat Conversacional**: Introducciones dinámicas con chatbot motivador
 
 - 🎮 **Gamificación**: Flashcards, juegos de memoria, relaciones, quiz interactivos
 
-# 2. Configurar variables de entorno
-
-cp .env.example .env- 🔐 **Auth Segura**: JWT + Bcrypt con sistema de roles (estudiante/profesor/admin)
-
-# Editar .env con tus credenciales
+- 🔐 **Auth Segura**: JWT + Bcrypt con sistema de roles (estudiante/profesor/admin)
 
 - 📊 **Analytics**: Dashboard completo para profesores con métricas de aprendizaje## ✨ Características## ✨ Características
 
-# 3. Iniciar servicios Docker (PostgreSQL, n8n, Ollama)
-
-docker-compose up -d- 📚 **72 Endpoints REST**: API completamente documentada con Swagger/OpenAPI
+- 📚 **72 Endpoints REST**: API completamente documentada con Swagger/OpenAPI
 
 
-
-# 4. Instalar dependencias
-
-npm install
 
 **Stack Tecnológico:** NestJS + PostgreSQL + Prisma + n8n + Ollama
 
-# 5. Configurar base de datos
-
-npx prisma generate- 🤖 **IA Generativa**: Contenido educativo automático (flashcards, juegos, quiz)- 🤖 **IA Generativa**: Contenido educativo automático (flashcards, juegos, quiz)
-
-npx prisma migrate deploy
-
-npm run seed---
-
-
-
-# 6. Iniciar backend en modo desarrollo- 💭 **Análisis Emocional**: Tracking en tiempo real con gemma2:2b- 💭 **Análisis Emocional**: Tracking en tiempo real de emociones y engagement
-
-npm run start:dev
-
-```## 🚀 Quick Start
-
-
-
-**Servicios disponibles:**- 💬 **Chat Conversacional**: Introducciones dinámicas con chatbot motivador- 💬 **Chat Conversacional**: Introductions dinámicas con chatbot motivador
-
-- 📚 **Backend API**: http://localhost:3000
-
-- 📖 **Swagger Docs**: http://localhost:3000/api```powershell
-
-- 🤖 **n8n Workflows**: http://localhost:5678 (admin/admin123)
-
-- 🧠 **Ollama AI**: http://localhost:11434# 1. Clonar repositorio- 🎮 **Gamificación**: Flashcards, memoria, relaciones, quiz interactivos- 🎮 **Gamificación**: Flashcards, memoria, relaciones, quiz interactivos
-
-
-
----git clone https://github.com/CarlitoUwU/backend-EduPlay.git
-
-
-
-## 🏗️ Arquitectura del Sistemacd backend-EduPlay- 🔐 **Auth Segura**: JWT + Bcrypt con roles- 🔐 **Auth Segura**: JWT + Bcrypt con roles (estudiante, profesor, admin)
-
-
-
-```
-
-┌──────────────┐
-
-│   Frontend   │# 2. Configurar entorno- 📊 **Analytics**: Dashboard para profesores- 📊 **Analytics**: Dashboard para profesores con métricas de aprendizaje
-
-│  (React/Vue) │
-
-└──────┬───────┘cp .env.example .env
-
-       │ HTTP/REST
-
-       ▼- 📚 **72 Endpoints REST** con documentación Swagger- 📚 **API REST**: 72 endpoints documentados con Swagger
-
-┌─────────────────────────────────────────┐
-
-│        Backend API (NestJS)             │# 3. Iniciar servicios Docker
-
-│  ┌────────────┬──────────────────────┐  │
-
-│  │  Auth JWT  │   13 Módulos REST    │  │docker-compose up -d
-
-│  │  (Guards)  │   72 Endpoints       │  │
-
-│  └────────────┴──────────────────────┘  │
-
-│         │                │               │
-
-│         ▼                ▼               │# 4. Instalar dependencias y configurar DB**Stack:** NestJS + PostgreSQL + Prisma + n8n + Ollama**Stack:** NestJS + PostgreSQL + Prisma + n8n + Ollama (gemma2:2b)
-
-│  ┌──────────┐    ┌────────────┐         │
-
-│  │PostgreSQL│    │ n8n + Ollama│         │npm install
-
-│  │ + Prisma │    │   (IA Gen)  │         │
-
-│  └──────────┘    └────────────┘         │npx prisma generate
-
-└─────────────────────────────────────────┘
-
-```npx prisma migrate deploy
-
-
-
-### Flujo de Trabajo con IAnpm run seed------
-
-
-
-1. **Profesor crea actividad** → Backend recibe solicitud
-
-2. **Backend invoca n8n** → Workflow genera contenido
-
-3. **n8n llama Ollama** → Modelo gemma2:2b genera respuesta# 5. Iniciar backend
-
-4. **Backend procesa** → Guarda en PostgreSQL
-
-5. **Estudiante interactúa** → Análisis emocional en tiempo realnpm run start:dev
-
-
-
-### 3 Workflows de IA Activos```## 🚀 Quick Start## 🚀 Quick Start
-
-
-
-| Workflow | Función | Tiempo | Endpoint |
-
-|----------|---------|--------|----------|
-
-| **Generate Educational Content** | Crear flashcards, memoria, relaciones, quiz | ~131 seg | `/webhook/generate-content` |**Servicios disponibles:**
-
-| **Analyze Student Emotion** | Detectar emoción (POSITIVO/NEUTRAL/NEGATIVO) y engagement (0-1) | ~7 seg | `/webhook/analyze-emotion` |
-
-| **Chat Conversation** | Respuestas conversacionales motivadoras | ~4 seg | `/webhook/chat` |- 📚 **API Backend**: http://localhost:3000
-
-
-
-📖 **Configuración completa:** Ver [N8N_GUIDE.md](./N8N_GUIDE.md)  - 📖 **Swagger Docs**: http://localhost:3000/api```powershell```powershell
-
-📦 **Workflows exportados:** Ver [n8n-workflows/](./n8n-workflows/)
-
-- 🤖 **n8n UI**: http://localhost:5678 (admin/admin123)
+- 🤖 **IA Generativa**: Contenido educativo automático (flashcards, juegos, quiz)- 🤖 **IA Generativa**: Contenido educativo automático (flashcards, juegos, quiz)
 
 ---
 
-- 🗄️ **Prisma Studio**: `npx prisma studio` → http://localhost:5555# 1. Clonar y configurar# 1. Clonar repositorio
+- 💭 **Análisis Emocional**: Tracking en tiempo real con gemma2:2b- 💭 **Análisis Emocional**: Tracking en tiempo real de emociones y engagement
 
-## 📁 Estructura del Proyecto
+## 🚀 Quick Start
 
-
-
-```
-
-backend-EduPlay/---git clone https://github.com/CarlitoUwU/backend-EduPlay.gitgit clone https://github.com/CarlitoUwU/backend-EduPlay.git
-
-├── docs/                        # 📚 Documentación detallada
-
-│   ├── API.md                   # Referencia completa de 72 endpoints
-
-│   ├── DATABASE.md              # Modelos Prisma y relaciones
-
-│   ├── TESTING.md               # Guías de testing y seed data## 🏗️ Arquitectura del Sistemacd backend-EduPlaycd backend-EduPlay
-
-│   └── COMMANDS.md              # Comandos útiles de desarrollo
-
-├── n8n-workflows/               # 🤖 Workflows n8n exportados
-
-│   ├── 1-generate-content.json
-
-│   ├── 2-analyze-emotion.json```cp .env.example .env
-
-│   ├── 3-chat-conversation.json
-
-│   └── README.md                # Instrucciones de importación┌─────────────┐
-
-├── prisma/
-
-│   └── schema.prisma            # 16 modelos de datos│   Frontend  │# 2. Configurar entorno
-
-├── src/
-
-│   ├── modules/                 # 13 módulos funcionales│  (React/    │
-
-│   │   ├── ai/                  # 🤖 IA (3 endpoints)
-
-│   │   ├── user/                # 👤 Users (5 endpoints CRUD)│   Vue/Next) │# 2. Iniciar servicioscp .env.example .env
-
-│   │   ├── activity/            # 📝 Actividades (8 endpoints)
-
-│   │   ├── flashcard/           # 🎴 Flashcards (6 endpoints)└──────┬──────┘
-
-│   │   ├── cards-memory/        # 🧠 Memoria (6 endpoints)
-
-│   │   ├── play-relation/       # 🔗 Relaciones (6 endpoints)       │ HTTP/RESTdocker-compose up -d
-
-│   │   ├── quiz/                # ❓ Quiz (6 endpoints)
-
-│   │   ├── classroom/           # 🏫 Aulas (6 endpoints)       ▼
-
-│   │   ├── course/              # 📚 Cursos (5 endpoints)
-
-│   │   ├── enrollment/          # 📋 Inscripciones (4 endpoints)┌──────────────────────────┐# 3. Iniciar servicios Docker
-
-│   │   ├── interaction/         # 📊 Analytics (6 endpoints)
-
-│   │   ├── student/             # 🎓 Estudiantes (7 endpoints)│  Backend NestJS :3000    │
-
-│   │   └── teacher/             # 👨‍🏫 Profesores (8 endpoints)
-
-│   ├── app/                     # Módulo raíz│  • 72 Endpoints REST     │# 3. Setup backenddocker-compose up -d
-
-│   ├── main.ts                  # Entry point
-
-│   └── prisma.service.ts        # Prisma client│  • JWT Auth              │
-
-├── test/                        # Tests E2E
-
-├── docker-compose.yml           # Orquestación de servicios│  • Swagger Docs          │npm install
-
-├── .env.example                 # Variables de entorno template
-
-├── N8N_GUIDE.md                 # Guía completa de workflows n8n└────┬────────────┬────────┘
-
-└── README.md                    # Este archivo
-
-```     │            │npx prisma generate# 4. Instalar dependencias
-
-
-
----     ▼            ▼
-
-
-
-## 🤖 Sistema de IA┌─────────┐  ┌───────────┐npx prisma migrate deploynpm install
-
-
-
-### Integración n8n + Ollama│PostgreSQL│  │  n8n :5678│
-
-
-
-El sistema utiliza **n8n** como orquestador de workflows y **Ollama** con el modelo **gemma2:2b** (1.6GB) para generación de contenido.│  :5432   │  │ Workflows │npm run seed
-
-
-
-**Modelo seleccionado:** `gemma2:2b`└──────────┘  └─────┬─────┘
-
-- ✅ Ligero: 1.6GB (vs 2.3GB phi3)
-
-- ✅ Rápido: ~4-7 segundos por respuesta                    │# 5. Configurar base de datos
-
-- ✅ Eficiente: Buena relación velocidad/calidad
-
-                    ▼
-
-**Configuración de Ollama:**
-
-```powershell              ┌──────────┐# 4. Iniciar desarrollonpx prisma generate
-
-# Descargar modelo
-
-docker exec -it ollama ollama pull gemma2:2b              │  Ollama  │
-
-
-
-# Verificar modelos              │ gemma2:2b│npm run start:devnpx prisma migrate deploy
-
-docker exec -it ollama ollama list
-
-```              │  :11434  │
-
-
-
-**Endpoints de IA en Backend:**              └──────────┘```npm run seed
-
-```typescript
-
-POST /ai/generate-content/:activityId  // Generar contenido gamificado```
-
-POST /ai/analyze-emotion               // Analizar emoción del estudiante
-
-POST /ai/chat                          // Chat conversacional
-
-```
-
-**Flujo de IA:**
-
-📖 **Documentación completa:** [N8N_GUIDE.md](./N8N_GUIDE.md)
-
-1. 👨‍🏫 Profesor crea actividad**Accesos:**# 6. Iniciar backend
-
----
-
-2. 🔄 Backend llama workflow n8n
-
-## 📚 Documentación
-
-3. 🤖 n8n genera contenido con Ollama (gemma2:2b)- 📚 API: http://localhost:3000npm run start:dev
-
-| Documento | Contenido |
-
-|-----------|-----------|4. 💾 Backend guarda en PostgreSQL
-
-| **[docs/API.md](./docs/API.md)** | Referencia completa de 72 endpoints REST |
-
-| **[docs/DATABASE.md](./docs/DATABASE.md)** | 16 modelos Prisma, relaciones, diagramas |5. 👨‍🎓 Estudiante interactúa → Análisis emocional en tiempo real- 📖 Swagger: http://localhost:3000/api```
-
-| **[docs/TESTING.md](./docs/TESTING.md)** | Guías de testing, seed data, pruebas manuales |
-
-| **[docs/COMMANDS.md](./docs/COMMANDS.md)** | Comandos útiles para desarrollo |
-
-| **[N8N_GUIDE.md](./N8N_GUIDE.md)** | Configuración paso a paso de workflows n8n |
-
-| **[n8n-workflows/README.md](./n8n-workflows/README.md)** | Importación de workflows |---- 🤖 n8n: http://localhost:5678 (admin/admin123)
-
-
-
----
-
-
-
-## 🛠️ Desarrollo## 🤖 Sistema de Inteligencia Artificial**Accesos:**
-
-
-
-### Comandos Principales
-
-
-
-```powershell### 3 Workflows n8n Activos---- 📚 API: http://localhost:3000
-
-# Desarrollo
-
-npm run start:dev          # Hot-reload
-
-npm run build              # Compilar TypeScript
-
-npm run start:prod         # Producción| Workflow | Función | Tiempo Promedio | Endpoint |- 📖 Swagger: http://localhost:3000/api
-
-
-
-# Base de datos|----------|---------|----------------|----------|
-
-npx prisma generate        # Generar cliente Prisma
-
-npx prisma migrate dev     # Crear migración| **Generate Educational Content** | Crear flashcards, juegos de memoria, relaciones y quiz | ~2 min | `/webhook/generate-content` |## 🏗️ Arquitectura- 🤖 n8n: http://localhost:5678 (admin/admin123)
-
-npx prisma migrate deploy  # Aplicar migraciones
-
-npx prisma studio          # GUI para base de datos| **Analyze Student Emotion** | Detectar emoción (POSITIVO/NEUTRAL/NEGATIVO) y engagement (0-1) | ~7 seg | `/webhook/analyze-emotion` |
-
-npm run seed               # Cargar datos de prueba
-
-| **Chat Conversation** | Respuestas conversacionales motivadoras para introducciones | ~4 seg | `/webhook/chat` |
-
-# Testing
-
-npm run test               # Tests unitarios
-
-npm run test:e2e           # Tests end-to-end
-
-npm run test:cov           # Cobertura de tests**📖 Guía completa de configuración:** Ver `N8N_GUIDE.md````---
-
-
-
-# Docker
-
-docker-compose up -d       # Iniciar servicios
-
-docker-compose down        # Detener servicios### Configuración Inicial de OllamaFrontend → Backend (NestJS) → PostgreSQL
-
-docker-compose logs -f     # Ver logs en tiempo real
-
-```
-
-
-
-📖 **Más comandos:** Ver [docs/COMMANDS.md](./docs/COMMANDS.md)```powershell              ↓## 🏗️ Arquitectura
-
-
-
----# Descargar modelo gemma2:2b (1.6GB - optimizado para velocidad)
-
-
-
-## 🔐 Autenticacióndocker exec -it ollama ollama pull gemma2:2b          n8n Workflows → Ollama (gemma2:2b)
-
-
-
-El sistema usa **JWT (JSON Web Tokens)** con **Bcrypt** para hash de contraseñas.
-
-
-
-**Roles disponibles:**# Verificar modelos instalados``````
-
-- `STUDENT` - Acceso a actividades y juegos
-
-- `TEACHER` - Gestión de cursos, actividades y analyticsdocker exec -it ollama ollama list
-
-- `ADMIN` - Acceso completo al sistema
-
-Frontend → Backend (NestJS) → PostgreSQL
-
-**Endpoints de autenticación:**
-
-```typescript# Verificar que Ollama responde
-
-POST /auth/register        // Registrar nuevo usuario
-
-POST /auth/login           // Login (retorna JWT)curl http://localhost:11434/api/tags**Flujo de IA:**              ↓
-
-GET  /auth/profile         // Perfil del usuario autenticado
-
-``````
-
-
-
----1. Teacher crea actividad            n8n Workflows → Ollama (IA)
-
-
-
-## 🧪 Testing---
-
-
-
-```powershell2. Backend llama n8n```
-
-# Cargar datos de prueba (seed)
-
-npm run seed## 📊 Endpoints Principales (72 Total)
-
-
-
-# Test manual de IA3. n8n genera contenido con Ollama
-
-Invoke-RestMethod -Uri "http://localhost:3000/ai/generate-content/ACTIVITY_ID" `
-
-  -Method POST `### 🤖 AI - Inteligencia Artificial (3 endpoints)
-
-  -ContentType "application/json" `
-
-  -Body '{"topic":"Fotosíntesis","minItems":3}'```typescript4. Backend guarda en DB**Flujo de IA:**
-
-
-
-# Test de chat workflowPOST /ai/generate-content/:activityId  // Generar contenido completo con IA
-
-.\test-chat-workflow.ps1
-
-```POST /ai/analyze-emotion                // Analizar emoción del estudiante5. Student interactúa → Análisis emocional1. Teacher crea actividad → Backend llama n8n
-
-
-
-📖 **Guía completa de testing:** Ver [docs/TESTING.md](./docs/TESTING.md)POST /ai/chat                           // Chat conversacional
-
-
-
----```2. n8n genera contenido con Ollama (gemma2:2b)
-
-
-
-## 🐛 Troubleshooting
-
-
-
-### Docker no inicia### 🎯 Actividades (8 endpoints)---3. Backend guarda flashcards/juegos/quiz en DB
+- 💬 **Chat Conversacional**: Introducciones dinámicas con chatbot motivador- 💬 **Chat Conversacional**: Introductions dinámicas con chatbot motivador
 
 ```powershell
 
-docker-compose down -v```typescript
+# 1. Clonar repositorio- 🎮 **Gamificación**: Flashcards, memoria, relaciones, quiz interactivos- 🎮 **Gamificación**: Flashcards, memoria, relaciones, quiz interactivos
+
+git clone https://github.com/CarlitoUwU/backend-EduPlay.git
+
+cd backend-EduPlay- 🔐 **Auth Segura**: JWT + Bcrypt con roles- 🔐 **Auth Segura**: JWT + Bcrypt con roles (estudiante, profesor, admin)
+
+
+
+# 2. Configurar entorno- 📊 **Analytics**: Dashboard para profesores- 📊 **Analytics**: Dashboard para profesores con métricas de aprendizaje
+
+cp .env.example .env
+
+- 📚 **72 Endpoints REST** con documentación Swagger- 📚 **API REST**: 72 endpoints documentados con Swagger
+
+# 3. Iniciar servicios Docker
 
 docker-compose up -d
 
-docker psPOST   /activity                // Crear actividad4. Student interactúa → Análisis emocional en tiempo real
+
+
+# 4. Instalar dependencias y configurar DB**Stack:** NestJS + PostgreSQL + Prisma + n8n + Ollama**Stack:** NestJS + PostgreSQL + Prisma + n8n + Ollama (gemma2:2b)
+
+npm install
+
+npx prisma generate
+
+npx prisma migrate deploy
+
+npm run seed------
+
+
+
+# 5. Iniciar backend
+
+npm run start:dev
+
+```## 🚀 Quick Start## 🚀 Quick Start
+
+
+
+**Servicios disponibles:**
+
+- 📚 **API Backend**: http://localhost:3000
+
+- 📖 **Swagger Docs**: http://localhost:3000/api```powershell```powershell
+
+- 🤖 **n8n UI**: http://localhost:5678 (admin/admin123)
+
+- 🗄️ **Prisma Studio**: `npx prisma studio` → http://localhost:5555# 1. Clonar y configurar# 1. Clonar repositorio
+
+
+
+---git clone https://github.com/CarlitoUwU/backend-EduPlay.gitgit clone https://github.com/CarlitoUwU/backend-EduPlay.git
+
+
+
+## 🏗️ Arquitectura del Sistemacd backend-EduPlaycd backend-EduPlay
+
+
+
+```cp .env.example .env
+
+┌─────────────┐
+
+│   Frontend  │# 2. Configurar entorno
+
+│  (React/    │
+
+│   Vue/Next) │# 2. Iniciar servicioscp .env.example .env
+
+└──────┬──────┘
+
+       │ HTTP/RESTdocker-compose up -d
+
+       ▼
+
+┌──────────────────────────┐# 3. Iniciar servicios Docker
+
+│  Backend NestJS :3000    │
+
+│  • 72 Endpoints REST     │# 3. Setup backenddocker-compose up -d
+
+│  • JWT Auth              │
+
+│  • Swagger Docs          │npm install
+
+└────┬────────────┬────────┘
+
+     │            │npx prisma generate# 4. Instalar dependencias
+
+     ▼            ▼
+
+┌─────────┐  ┌───────────┐npx prisma migrate deploynpm install
+
+│PostgreSQL│  │  n8n :5678│
+
+│  :5432   │  │ Workflows │npm run seed
+
+└──────────┘  └─────┬─────┘
+
+                    │# 5. Configurar base de datos
+
+                    ▼
+
+              ┌──────────┐# 4. Iniciar desarrollonpx prisma generate
+
+              │  Ollama  │
+
+              │ gemma2:2b│npm run start:devnpx prisma migrate deploy
+
+              │  :11434  │
+
+              └──────────┘```npm run seed
 
 ```
 
+
+
+**Flujo de IA:**
+
+1. 👨‍🏫 Profesor crea actividad**Accesos:**# 6. Iniciar backend
+
+2. 🔄 Backend llama workflow n8n
+
+3. 🤖 n8n genera contenido con Ollama (gemma2:2b)- 📚 API: http://localhost:3000npm run start:dev
+
+4. 💾 Backend guarda en PostgreSQL
+
+5. 👨‍🎓 Estudiante interactúa → Análisis emocional en tiempo real- 📖 Swagger: http://localhost:3000/api```
+
+
+
+---- 🤖 n8n: http://localhost:5678 (admin/admin123)
+
+
+
+## 🤖 Sistema de Inteligencia Artificial**Accesos:**
+
+
+
+### 3 Workflows n8n Activos---- 📚 API: http://localhost:3000
+
+
+
+| Workflow | Función | Tiempo Promedio | Endpoint |- 📖 Swagger: http://localhost:3000/api
+
+|----------|---------|----------------|----------|
+
+| **Generate Educational Content** | Crear flashcards, juegos de memoria, relaciones y quiz | ~2 min | `/webhook/generate-content` |## 🏗️ Arquitectura- 🤖 n8n: http://localhost:5678 (admin/admin123)
+
+| **Analyze Student Emotion** | Detectar emoción (POSITIVO/NEUTRAL/NEGATIVO) y engagement (0-1) | ~7 seg | `/webhook/analyze-emotion` |
+
+| **Chat Conversation** | Respuestas conversacionales motivadoras para introducciones | ~4 seg | `/webhook/chat` |
+
+
+
+**📖 Guía completa de configuración:** Ver `N8N_GUIDE.md````---
+
+
+
+### Configuración Inicial de OllamaFrontend → Backend (NestJS) → PostgreSQL
+
+
+
+```powershell              ↓## 🏗️ Arquitectura
+
+# Descargar modelo gemma2:2b (1.6GB - optimizado para velocidad)
+
+docker exec -it ollama ollama pull gemma2:2b          n8n Workflows → Ollama (gemma2:2b)
+
+
+
+# Verificar modelos instalados``````
+
+docker exec -it ollama ollama list
+
+Frontend → Backend (NestJS) → PostgreSQL
+
+# Verificar que Ollama responde
+
+curl http://localhost:11434/api/tags**Flujo de IA:**              ↓
+
+```
+
+1. Teacher crea actividad            n8n Workflows → Ollama (IA)
+
+---
+
+2. Backend llama n8n```
+
+## 📊 Endpoints Principales (72 Total)
+
+3. n8n genera contenido con Ollama
+
+### 🤖 AI - Inteligencia Artificial (3 endpoints)
+
+```typescript4. Backend guarda en DB**Flujo de IA:**
+
+POST /ai/generate-content/:activityId  // Generar contenido completo con IA
+
+POST /ai/analyze-emotion                // Analizar emoción del estudiante5. Student interactúa → Análisis emocional1. Teacher crea actividad → Backend llama n8n
+
+POST /ai/chat                           // Chat conversacional
+
+```2. n8n genera contenido con Ollama (gemma2:2b)
+
+
+
+### 🎯 Actividades (8 endpoints)---3. Backend guarda flashcards/juegos/quiz en DB
+
+```typescript
+
+POST   /activity                // Crear actividad4. Student interactúa → Análisis emocional en tiempo real
+
 GET    /activity                // Listar todas las actividades
 
-### Error de conexión PostgreSQL
+GET    /activity/:id            // Obtener una actividad## 🤖 Sistema de IA (n8n + Ollama)
 
-```powershellGET    /activity/:id            // Obtener una actividad## 🤖 Sistema de IA (n8n + Ollama)
+PATCH  /activity/:id            // Actualizar actividad
 
-# Verificar que el contenedor esté corriendo
+DELETE /activity/:id            // Eliminar actividad---
 
-docker ps | findstr postgresPATCH  /activity/:id            // Actualizar actividad
+GET    /activity/course/:id     // Actividades por curso
 
+GET    /activity/student/:id    // Actividades por estudiante### 3 Workflows Activos
 
-
-# Ver logsDELETE /activity/:id            // Eliminar actividad---
-
-docker logs postgres_eduplay -f
-
-```GET    /activity/course/:id     // Actividades por curso
-
-
-
-### Ollama no respondeGET    /activity/student/:id    // Actividades por estudiante### 3 Workflows Activos
-
-```powershell
-
-# Reiniciar servicioGET    /activity/upcoming       // Actividades próximas
-
-docker restart ollama
+GET    /activity/upcoming       // Actividades próximas
 
 ```## 🤖 Sistema de IA
 
-# Verificar modelo
-
-docker exec ollama ollama list
 
 
+### 📇 Flashcards (6 endpoints)| Workflow | Función | Tiempo |
 
-# Re-descargar modelo### 📇 Flashcards (6 endpoints)| Workflow | Función | Tiempo |
+```typescript
 
-docker exec ollama ollama pull gemma2:2b
+POST   /flashcard               // Crear flashcard|----------|---------|--------|### 3 Workflows n8n Activos
 
-``````typescript
+GET    /flashcard               // Listar todas
 
+GET    /flashcard/:id           // Obtener una| **Generate Content** | Crear flashcards, juegos, quiz | ~2 min |
 
+GET    /flashcard/activity/:id  // Flashcards por actividad
 
-### n8n workflows no funcionanPOST   /flashcard               // Crear flashcard|----------|---------|--------|### 3 Workflows n8n Activos
+PATCH  /flashcard/:id           // Actualizar| **Analyze Emotion** | Detectar emoción y engagement | ~7 seg || Workflow | Propósito | Tiempo | Endpoint |
 
-1. Verificar que n8n esté corriendo: http://localhost:5678
+DELETE /flashcard/:id           // Eliminar
 
-2. Workflows deben estar activos (toggle verde)GET    /flashcard               // Listar todas
-
-3. Importar workflows desde `n8n-workflows/` si es necesario
-
-4. Ver logs: `docker logs n8n -f`GET    /flashcard/:id           // Obtener una| **Generate Content** | Crear flashcards, juegos, quiz | ~2 min |
-
+```| **Chat** | Respuestas conversacionales | ~4 seg ||----------|-----------|--------|----------|
 
 
----GET    /flashcard/activity/:id  // Flashcards por actividad
-
-
-
-## 🤝 ContribuirPATCH  /flashcard/:id           // Actualizar| **Analyze Emotion** | Detectar emoción y engagement | ~7 seg || Workflow | Propósito | Tiempo | Endpoint |
-
-
-
-```bashDELETE /flashcard/:id           // Eliminar
-
-# 1. Fork del repositorio
-
-git clone https://github.com/YOUR_USERNAME/backend-EduPlay.git```| **Chat** | Respuestas conversacionales | ~4 seg ||----------|-----------|--------|----------|
-
-
-
-# 2. Crear rama feature
-
-git checkout -b feature/nueva-funcionalidad
 
 ### 🎮 Juegos (CardsMemory, PlayRelation - 6 endpoints cada uno)| **Generate Content** | Crear flashcards, juegos, quiz | ~2 min | `/generate-content` |
 
-# 3. Commit cambios
+```typescript
 
-git commit -m "feat: agregar nueva funcionalidad"```typescript
-
-
-
-# 4. Push a tu fork// Similar estructura para:**Setup:** Ver guía completa en `N8N_GUIDE.md`| **Analyze Emotion** | Detectar emoción y engagement | ~7 seg | `/analyze-emotion` |
-
-git push origin feature/nueva-funcionalidad
+// Similar estructura para:**Setup:** Ver guía completa en `N8N_GUIDE.md`| **Analyze Emotion** | Detectar emoción y engagement | ~7 seg | `/analyze-emotion` |
 
 POST   /cards-memory             // Crear par de memoria
 
-# 5. Crear Pull Request
+POST   /play-relation            // Crear relación| **Chat Conversation** | Respuestas conversacionales | ~4 seg | `/chat` |
 
-```POST   /play-relation            // Crear relación| **Chat Conversation** | Respuestas conversacionales | ~4 seg | `/chat` |
+// + GET, GET/:id, GET/activity/:id, PATCH, DELETE
 
-
-
----// + GET, GET/:id, GET/activity/:id, PATCH, DELETE
+```### Descargar Modelo
 
 
 
-## 📄 Licencia```### Descargar Modelo
+### 📝 Quiz (6 endpoints)**Setup n8n:** Ver guía completa en `N8N_GUIDE.md`
 
+```typescript
 
+POST   /quiz                     // Crear quiz```powershell
 
-Este proyecto está bajo licencia MIT. Ver archivo [LICENSE](./LICENSE) para más detalles.
+GET    /quiz                     // Listar todos
 
+GET    /quiz/:id                 // Obtener unodocker exec -it ollama ollama pull gemma2:2b### Modelo Ollama
 
+GET    /quiz/activity/:id        // Quiz por actividad
 
----### 📝 Quiz (6 endpoints)**Setup n8n:** Ver guía completa en `N8N_GUIDE.md`
+PATCH  /quiz/:id                 // Actualizardocker exec -it ollama ollama list
 
+DELETE /quiz/:id                 // Eliminar
 
+`````````powershell
 
-## 👥 Autores```typescript
-
-
-
-- **CarlitoUwU** - [GitHub](https://github.com/CarlitoUwU)POST   /quiz                     // Crear quiz```powershell
-
-
-
----GET    /quiz                     // Listar todos
-
-
-
-## 🙏 AgradecimientosGET    /quiz/:id                 // Obtener unodocker exec -it ollama ollama pull gemma2:2b### Modelo Ollama
-
-
-
-- [NestJS](https://nestjs.com/) - Framework backendGET    /quiz/activity/:id        // Quiz por actividad
-
-- [Prisma](https://www.prisma.io/) - ORM TypeScript
-
-- [n8n](https://n8n.io/) - Workflow automationPATCH  /quiz/:id                 // Actualizardocker exec -it ollama ollama list
-
-- [Ollama](https://ollama.ai/) - LLM local
-
-- Comunidad open sourceDELETE /quiz/:id                 // Eliminar
-
-
-
----`````````powershell
-
-
-
-**🎮 EduPlay** - Educación gamificada con inteligencia artificial integrada
 
 
 **📖 Documentación interactiva completa:** http://localhost:3000/api# Descargar modelo
