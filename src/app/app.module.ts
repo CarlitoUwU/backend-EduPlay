@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CourseModule } from '@modules/course/course.module';
@@ -9,9 +10,15 @@ import { EnrollmentModule } from '@/modules/enrollment/enrollment.module';
 import { InteractionModule } from '@/modules/interaction/interaction.module';
 import { StudentModule } from '@/modules/student/student.module';
 import { TeacherModule } from '@/modules/teacher/teacher.module';
+import { AiModule } from '@/modules/ai/ai.module';
+import { FlashcardModule } from '@/modules/flashcard/flashcard.module';
+import { CardsMemoryModule } from '@/modules/cards-memory/cards-memory.module';
+import { PlayRelationModule } from '@/modules/play-relation/play-relation.module';
+import { QuizModule } from '@/modules/quiz/quiz.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     CourseModule,
     ClassroomModule,
     AuthModule,
@@ -20,8 +27,14 @@ import { TeacherModule } from '@/modules/teacher/teacher.module';
     InteractionModule,
     StudentModule,
     TeacherModule,
+    AiModule,
+    FlashcardModule,
+    CardsMemoryModule,
+    PlayRelationModule,
+    QuizModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+
