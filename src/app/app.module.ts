@@ -16,6 +16,7 @@ import { CardsMemoryModule } from '@/modules/cards-memory/cards-memory.module';
 import { PlayRelationModule } from '@/modules/play-relation/play-relation.module';
 import { QuizModule } from '@/modules/quiz/quiz.module';
 import { UserModule } from '@/modules/user/user.module';
+import { HealthModule } from '@/health/health.module';
 
 @Module({
   imports: [
@@ -34,9 +35,9 @@ import { UserModule } from '@/modules/user/user.module';
     PlayRelationModule,
     QuizModule,
     UserModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
-
