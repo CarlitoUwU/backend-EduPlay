@@ -1,118 +1,55 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserDto } from './dto/user.dto';
 import { PrismaService } from '@/prisma.service';
-import * as bcrypt from 'bcryptjs';
+import { UserDto } from './dto/user.dto';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserDto> {
-    // Verificar si el email ya existe
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: createUserDto.email },
+    const user = await this.prismaService.user.create({
+      data: { ...createUserDto, role: createUserDto.role as Role },
     });
-
-    if (existingUser) {
-      throw new ConflictException('Email already exists');
-    }
-
-    // Hashear password
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-
-    // Crear usuario
-    const user = await this.prisma.user.create({
-      data: {
-        full_name: createUserDto.full_name,
-        email: createUserDto.email,
-        password: hashedPassword,
-        role: createUserDto.role || 'STUDENT',
-      },
-    });
-
-    // Retornar sin password
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    return user;
   }
 
   async findAll(): Promise<UserDto[]> {
-    const users = await this.prisma.user.findMany({
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
-    });
-
-    return users;
+    return await this.prismaService.user.findMany();
   }
 
   async findOne(id: string): Promise<UserDto> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-        student: true,
-        teacher: true,
-      },
     });
 
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      throw new NotFoundException(`User con ID ${id} no encontrado`);
     }
 
     return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<UserDto> {
-    // Verificar que el usuario existe
-    await this.findOne(id);
+    const user = await this.findOne(id);
 
-    // Si se actualiza el password, hashearlo
-    const dataToUpdate: any = { ...updateUserDto };
-    if (updateUserDto.password) {
-      dataToUpdate.password = await bcrypt.hash(updateUserDto.password, 10);
-    }
-
-    // Si se actualiza el email, verificar que no exista
-    if (updateUserDto.email) {
-      const existingUser = await this.prisma.user.findUnique({
-        where: { email: updateUserDto.email },
-      });
-
-      if (existingUser && existingUser.id !== id) {
-        throw new ConflictException('Email already exists');
-      }
-    }
-
-    const user = await this.prisma.user.update({
+    return await this.prismaService.user.update({
       where: { id },
-      data: dataToUpdate,
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        role: true,
-        createdAt: true,
+      data: {
+        ...updateUserDto,
+        role: updateUserDto.role
+          ? (updateUserDto.role as Role)
+          : (user.role as Role),
       },
     });
-
-    return user;
   }
 
-  async remove(id: string): Promise<void> {
-    // Verificar que el usuario existe
+  async remove(id: string): Promise<UserDto> {
     await this.findOne(id);
 
-    await this.prisma.user.delete({
+    return await this.prismaService.user.delete({
       where: { id },
     });
   }
