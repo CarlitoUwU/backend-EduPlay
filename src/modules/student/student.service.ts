@@ -117,38 +117,6 @@ export class StudentService {
     });
 
     if (!student) {
-<<<<<<< HEAD
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-
-    return {
-      id: student.id,
-      nickname: student.nickname || undefined,
-      age: student.age,
-      grade: student.grade,
-      risk_score: student.risk_score,
-      user_id: student.user_id,
-      classroom_id: student.classroom_id,
-      user: {
-        id: student.user.id,
-        full_name: student.user.full_name,
-        email: student.user.email,
-        role: student.user.role,
-      },
-      classroom: {
-        id: student.classroom.id,
-        name: student.classroom.name,
-      },
-    };
-  }
-
-  async findByUserId(user_id: string): Promise<StudentDto> {
-    const student = await this.prismaService.student.findUnique({
-      where: { user_id },
-      include: {
-        user: true,
-        classroom: true,
-=======
       throw new NotFoundException('Student not found');
     }
 
@@ -175,43 +143,10 @@ export class StudentService {
             },
           },
         },
->>>>>>> feature/complete-backend-implementation
       },
     });
 
     if (!student) {
-<<<<<<< HEAD
-      throw new NotFoundException(`Student with User ID ${user_id} not found`);
-    }
-
-    return {
-      id: student.id,
-      nickname: student.nickname || undefined,
-      age: student.age,
-      grade: student.grade,
-      risk_score: student.risk_score,
-      user_id: student.user_id,
-      classroom_id: student.classroom_id,
-      user: {
-        id: student.user.id,
-        full_name: student.user.full_name,
-        email: student.user.email,
-        role: student.user.role,
-      },
-      classroom: {
-        id: student.classroom.id,
-        name: student.classroom.name,
-      },
-    };
-  }
-  /* async update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
-  }
-
-  async remove(id: number) {
-    return `This action removes a #${id} student`;
-  } */
-=======
       throw new NotFoundException('Student not found for this user');
     }
 
@@ -323,5 +258,4 @@ export class StudentService {
       where: { id },
     });
   }
->>>>>>> feature/complete-backend-implementation
 }

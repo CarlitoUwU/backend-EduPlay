@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-import { UserDto } from '@/modules/user/dto/user.dto';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
-
-export class TeacherDto {
-  id: string;
-
-  @ApiProperty({
-    description: 'The speciality of the teacher',
-    example: 'Mathematics',
-    type: String,
-  })
-  @IsNotEmpty()
-  @IsString()
-  specialty: string;
-
-  assignedGrade: number;
-
-  user: UserDto;
-=======
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TeacherDto {
@@ -33,5 +12,4 @@ export class TeacherDto {
 
   @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174001' })
   user_id: string;
->>>>>>> feature/complete-backend-implementation
 }
