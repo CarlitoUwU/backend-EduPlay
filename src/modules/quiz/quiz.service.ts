@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
-import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizDto } from './dto/quiz.dto';
 
 @Injectable()
@@ -86,14 +85,6 @@ export class QuizService {
         questionsAudio: true,
       },
     });
-  }
-
-  async update(id: string, updateQuizDto: UpdateQuizDto): Promise<QuizDto> {
-    const quiz = await this.findOne(id);
-
-    // El quiz no se actualiza directamente, solo se pueden agregar/modificar preguntas
-    // Por simplicidad, retornamos el quiz actual
-    return quiz;
   }
 
   async remove(id: string): Promise<QuizDto> {
