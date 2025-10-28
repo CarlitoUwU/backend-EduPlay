@@ -1,0 +1,92 @@
+{
+  "name": "Generate Educational Content",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-content",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "webhook-node",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ollama:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gemma2:2b\",\n  \"prompt\": \"Eres un asistente educativo especializado en crear contenido gamificado para estudiantes peruanos.\\n\\nTarea: Genera contenido educativo sobre el tema que te proporcione el usuario.\\n\\nDebes crear:\\n1. EXACTAMENTE 8 FLASHCARDS (pregunta-respuesta)\\n2. EXACTAMENTE 6 PARES para juego de memoria (conceptos relacionados)\\n3. EXACTAMENTE 8 RELACIONES (4 correctas, 4 incorrectas)\\n4. EXACTAMENTE 7 PREGUNTAS de quiz con múltiple opción\\n\\nFormato de respuesta (IMPORTANTE: Responde SOLO con este formato):\\n\\n### FLASHCARDS\\n1. P: [pregunta] | R: [respuesta]\\n2. P: [pregunta] | R: [respuesta]\\n...\\n\\n### MEMORIA\\n1. [concepto1] <-> [concepto2]\\n2. [concepto1] <-> [concepto2]\\n...\\n\\n### RELACIONES\\nCORRECTAS:\\n1. [item1] = [item2]\\n2. [item1] = [item2]\\nINCORRECTAS:\\n1. [item1] ≠ [item2]\\n2. [item1] ≠ [item2]\\n...\\n\\n### QUIZ\\n1. [pregunta]\\nA) [opción]\\nB) [opción]\\nC) [opción]\\nD) [opción]\\nRespuesta: [A/B/C/D]\\n...\\n\\nTEMA A DESARROLLAR:\\n={{ $json.body.prompt }}\",\n  \"stream\": false,\n  \"options\": {\n    \"num_predict\": 3500,\n    \"temperature\": 0.7\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [208, 0],
+      "id": "http-request-node",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener la respuesta de Ollama\nconst ollamaResponse = $input.first().json;\nconst content = ollamaResponse.response;\n\n// Función auxiliar para extraer secciones\nfunction extractSection(text, startMarker, endMarker) {\n  const start = text.indexOf(startMarker);\n  if (start === -1) return '';\n  const afterStart = start + startMarker.length;\n  const end = endMarker ? text.indexOf(endMarker, afterStart) : text.length;\n  return text.substring(afterStart, end !== -1 ? end : text.length).trim();\n}\n\n// 1. PARSEAR FLASHCARDS\nconst flashcardsSection = extractSection(content, '### FLASHCARDS', '### MEMORIA');\nconst flashcards = [];\nconst flashcardLines = flashcardsSection.split('\\n').filter(line => line.match(/^\\d+\\./));\n\nfor (const line of flashcardLines) {\n  const match = line.match(/P:\\s*(.+?)\\s*\\|\\s*R:\\s*(.+)/);\n  if (match) {\n    flashcards.push({\n      question: match[1].trim(),\n      answer: match[2].trim()\n    });\n  }\n}\n\n// 2. PARSEAR MEMORIA\nconst memoriaSection = extractSection(content, '### MEMORIA', '### RELACIONES');\nconst cardsMemory = [];\nconst memoriaLines = memoriaSection.split('\\n').filter(line => line.match(/^\\d+\\./));\n\nfor (const line of memoriaLines) {\n  const parts = line.replace(/^\\d+\\.\\s*/, '').split('<->');\n  if (parts.length === 2) {\n    cardsMemory.push({\n      card1: parts[0].trim(),\n      card2: parts[1].trim(),\n      isMatched: true\n    });\n  }\n}\n\n// 3. PARSEAR RELACIONES\nconst relacionesSection = extractSection(content, '### RELACIONES', '### QUIZ');\nconst playRelations = [];\n\n// Parsear todas las líneas numeradas\nconst relacionesLines = relacionesSection.split('\\n');\nlet isCorrect = false;\n\nfor (const line of relacionesLines) {\n  if (line.includes('CORRECTAS:')) {\n    isCorrect = true;\n    continue;\n  }\n  if (line.includes('INCORRECTAS:')) {\n    isCorrect = false;\n    continue;\n  }\n  \n  if (line.match(/^\\d+\\./)) {\n    const parts = line.replace(/^\\d+\\.\\s*/, '').split('=');\n    if (parts.length === 2) {\n      playRelations.push({\n        item1: parts[0].trim(),\n        item2: parts[1].trim(),\n        isRelated: isCorrect\n      });\n    }\n  }\n}\n\n// 4. PARSEAR QUIZ\nconst quizSection = extractSection(content, '### QUIZ', null);\nconst quiz = [];\n\n// Dividir por líneas que empiezan con número\nconst quizBlocks = quizSection.split(/\\n(?=\\d+\\.)/);\n\nfor (const block of quizBlocks) {\n  if (!block.trim()) continue;\n  \n  const lines = block.split('\\n');\n  if (lines.length < 2) continue;\n  \n  // Extraer pregunta (primera línea)\n  const questionLine = lines[0].replace(/^\\d+\\.\\s*/, '').trim();\n  \n  // Extraer opciones de la segunda línea\n  const optionsLine = lines[1];\n  const optionMatches = optionsLine.match(/A\\)\\s*([^B]+)\\s*B\\)\\s*([^C]+)\\s*C\\)\\s*([^D]+)\\s*D\\)\\s*(.+?)(?:\\s*\\(|$)/);\n  \n  // Buscar respuesta\n  let correctOption = 'A';\n  const respuestaMatch = block.match(/Respuesta:\\s*([A-D])\\)/);\n  if (respuestaMatch) {\n    correctOption = respuestaMatch[1];\n  }\n  \n  if (optionMatches) {\n    quiz.push({\n      question: questionLine,\n      optionA: optionMatches[1].trim(),\n      optionB: optionMatches[2].trim(),\n      optionC: optionMatches[3].trim(),\n      optionD: optionMatches[4].trim(),\n      correctOption: correctOption\n    });\n  }\n}\n\n// DEVOLVER RESPUESTA ESTRUCTURADA\nreturn {\n  json: {\n    flashcards: flashcards.slice(0, 8),\n    cardsMemory: cardsMemory.slice(0, 6),\n    playRelations: playRelations.slice(0, 8),\n    quiz: quiz.slice(0, 7),\n    metadata: {\n      model: \"gemma2:2b\",\n      timestamp: new Date().toISOString(),\n      counts: {\n        flashcards: flashcards.length,\n        cardsMemory: cardsMemory.length,\n        playRelations: playRelations.length,\n        quiz: quiz.length\n      }\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [416, 0],
+      "id": "code-node",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [592, 0],
+      "id": "respond-node",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

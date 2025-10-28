@@ -1,0 +1,92 @@
+{
+  "name": "Student Chat Conversation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "webhook-node",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ollama:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gemma2:2b\",\n  \"prompt\": \"Eres un asistente educativo amigable y motivador. Tu objetivo es introducir al estudiante a una nueva actividad de aprendizaje de forma breve y entusiasta.\\n\\nCONTEXTO DE LA ACTIVIDAD:\\n- Curso: {{ $json.body.courseName }}\\n- Actividad: {{ $json.body.activityTitle }}\\n- Descripción: {{ $json.body.activityDescription }}\\n\\nCONVERSACIÓN PREVIA:\\n{{ $json.body.conversationHistory.map(m => `${m.role}: ${m.text}`).join('\\\\n') }}\\n\\nMENSAJE DEL ESTUDIANTE:\\n{{ $json.body.studentMessage }}\\n\\nINSTRUCCIONES:\\n- Responde de forma breve (máximo 2-3 oraciones)\\n- Sé motivador y cercano\\n- Conecta con los intereses del estudiante\\n- Si es el primer mensaje, da la bienvenida\\n- Si pregunta algo específico, responde directamente\\n- Anima al estudiante a comenzar la actividad\\n\\nRESPUESTA:\",\n  \"stream\": false,\n  \"options\": {\n    \"num_predict\": 150,\n    \"temperature\": 0.8\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [208, 0],
+      "id": "http-request-node",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extraer la respuesta de Ollama\nconst ollamaResponse = $input.item.json.response;\n\n// Limpiar la respuesta (eliminar saltos de línea innecesarios)\nlet botResponse = ollamaResponse\n  .replace(/\\n+/g, ' ')\n  .trim();\n\n// Limitar longitud máxima (por seguridad)\nif (botResponse.length > 300) {\n  botResponse = botResponse.substring(0, 297) + '...';\n}\n\nreturn {\n  botResponse: botResponse\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [416, 0],
+      "id": "code-node",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [624, 0],
+      "id": "respond-node",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
