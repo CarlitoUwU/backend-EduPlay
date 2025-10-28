@@ -60,8 +60,29 @@ Write-Host "✅ Servicios Docker iniciados" -ForegroundColor Green
 
 # Esperar a que PostgreSQL esté listo
 Write-Host ""
-Write-Host "⏳ Esperando a que PostgreSQL esté listo (15 segundos)..." -ForegroundColor Yellow
-Start-Sleep -Seconds 15
+Write-Host "⏳ Esperando a que PostgreSQL esté listo..." -ForegroundColor Yellow
+$maxRetries = 30
+$retryCount = 0
+$isReady = $false
+
+while (-not $isReady -and $retryCount -lt $maxRetries) {
+    $retryCount++
+    Write-Host "   Intento $retryCount/$maxRetries..." -ForegroundColor Cyan
+    
+    $result = docker exec postgres_eduplay pg_isready -U postgres 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        $isReady = $true
+        Write-Host "✅ PostgreSQL está listo!" -ForegroundColor Green
+    } else {
+        Start-Sleep -Seconds 2
+    }
+}
+
+if (-not $isReady) {
+    Write-Host "❌ PostgreSQL no respondió después de 60 segundos" -ForegroundColor Red
+    Write-Host "   Verifica los logs: docker logs postgres_eduplay" -ForegroundColor Yellow
+    exit 1
+}
 
 # 5. CRÍTICO: Generar Prisma Client PRIMERO
 Write-Host ""
