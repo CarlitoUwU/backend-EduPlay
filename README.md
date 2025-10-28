@@ -80,7 +80,7 @@ npm run start:dev
 ### ✅ Verificar Instalación
 
 - 📚 **API**: http://localhost:3000
-- 📖 **Swagger**: http://localhost:3000/api
+- 📖 **Swagger**: http://localhost:3000/api/docs
 - 🤖 **n8n**: http://localhost:5678
 - 🧠 **Ollama**: http://localhost:11434
 
@@ -162,7 +162,7 @@ GET  /auth/profile   // Perfil
 
 ## 📖 Recursos
 
-- **Swagger:** http://localhost:3000/api
+- **Swagger:** http://localhost:3000/api/docs
 - **GitHub:** https://github.com/CarlitoUwU/backend-EduPlay
 - **n8n:** http://localhost:5678
 - **Prisma Studio:** `npx prisma studio`
