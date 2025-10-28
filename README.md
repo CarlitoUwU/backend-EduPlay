@@ -32,34 +32,53 @@ Backend de la plataforma educativa gamificada **EduPlay** - Sistema de gestión 
 - Docker Desktop
 - Git
 
-### Instalación Rápida
+### Opción A: Setup Automatizado (Recomendado)
+
+```powershell
+# 1. Clonar repositorio
+git clone https://github.com/CarlitoUwU/backend-EduPlay.git
+cd backend-EduPlay
+
+# 2. Ejecutar script de setup automático
+.\setup.ps1
+
+# 3. Iniciar servidor
+npm run start:dev
+```
+
+### Opción B: Setup Manual
 
 ```bash
 # 1. Clonar repositorio
 git clone https://github.com/CarlitoUwU/backend-EduPlay.git
 cd backend-EduPlay
 
-# 2. Instalar dependencias
-npm install
-
-# 3. Configurar variables de entorno
+# 2. Configurar variables de entorno
 cp .env.example .env
 
-# 4. Levantar servicios Docker
+# 3. Levantar servicios Docker
 docker-compose up -d
 
-# 5. Aplicar migraciones
+# 4. Instalar dependencias
+npm install
+
+# 5. Generar Prisma Client (CRÍTICO)
+npx prisma generate
+
+# 6. Aplicar migraciones
 npx prisma migrate deploy
 
-# 6. Poblar base de datos
+# 7. Poblar base de datos
 npm run seed
 
-# 7. Iniciar servidor
+# 8. Iniciar servidor
 npm run start:dev
 ```
 
 ✅ **Backend corriendo en**: http://localhost:3000  
 📚 **Swagger UI**: http://localhost:3000/api/docs
+
+> ⚠️ **IMPORTANTE**: Siempre ejecuta `npx prisma generate` después de clonar el repositorio o cambiar el schema, ANTES de ejecutar migraciones o seed.
 
 ---
 

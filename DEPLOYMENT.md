@@ -161,7 +161,25 @@ Deberías ver:
 > docker exec -it postgres_eduplay psql -U postgres -c "CREATE DATABASE n8n;"
 > ```
 
-### 5.2 Aplicar migraciones de Prisma
+### 5.2 **Generar Prisma Client (CRÍTICO - HACER PRIMERO)**
+
+> ⚠️ **MUY IMPORTANTE**: Este paso DEBE hacerse ANTES de aplicar migraciones o ejecutar el seed.
+
+```powershell
+# Generar el cliente de Prisma basado en schema.prisma
+npx prisma generate
+```
+
+Este comando:
+- Lee el archivo `prisma/schema.prisma`
+- Genera el cliente TypeScript en `node_modules/@prisma/client`
+- Crea los tipos para `Emotion`, `Role` y todos los modelos
+
+**Sin este paso tendrás errores como:**
+- ❌ `Module '"@prisma/client"' has no exported member 'Emotion'`
+- ❌ `'start_time' does not exist in type ActivityCreateInput`
+
+### 5.3 Aplicar migraciones de Prisma
 
 ```powershell
 # Aplicar todas las migraciones
@@ -169,13 +187,6 @@ npx prisma migrate deploy
 
 # O si prefieres resetear desde cero
 npx prisma migrate reset
-```
-
-### 5.3 Generar Prisma Client
-
-```powershell
-# Generar el cliente de Prisma
-npx prisma generate
 ```
 
 ### 5.4 Poblar la base de datos con datos de prueba
@@ -378,6 +389,36 @@ docker restart postgres_eduplay
 # Regenerar Prisma Client
 npx prisma generate
 ```
+
+### ❌ Error: "Module '@prisma/client' has no exported member 'Emotion'"
+
+**Problema**: El Prisma Client se generó ANTES de tener el schema correcto, o no se regeneró después de clonar.
+
+**Síntomas**:
+```
+error TS2305: Module '"@prisma/client"' has no exported member 'Emotion'
+error TS2353: 'start_time' does not exist in type 'ActivityCreateInput'
+```
+
+**Causa**: Cuando clonas el repo, `node_modules/@prisma/client` puede estar desactualizado o no existir.
+
+**Solución (ORDEN IMPORTANTE)**:
+```powershell
+# 1. Eliminar Prisma Client antiguo
+Remove-Item -Recurse -Force node_modules\.prisma
+Remove-Item -Recurse -Force node_modules\@prisma\client
+
+# 2. Regenerar desde el schema.prisma
+npx prisma generate
+
+# 3. Reiniciar TypeScript server en VSCode
+# Presiona Ctrl+Shift+P → "TypeScript: Restart TS Server"
+
+# 4. Ahora sí, ejecutar seed
+npm run seed
+```
+
+> 💡 **Tip**: SIEMPRE ejecuta `npx prisma generate` después de clonar el repo o cambiar el schema.
 
 ### Error: "Database does not exist"
 
