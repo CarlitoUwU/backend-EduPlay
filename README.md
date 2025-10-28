@@ -1,98 +1,402 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🎮 EduPlay Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend de la plataforma educativa gamificada **EduPlay** - Sistema de gestión de actividades educativas con integración de IA para personalización y análisis de emociones.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+[![NestJS](https://img.shields.io/badge/NestJS-11.0.1-E0234E?logo=nestjs)](https://nestjs.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?logo=prisma)](https://www.prisma.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/)
 
-## Description
+---
+0
+## 📋 Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**EduPlay** es una plataforma educativa que combina gamificación con inteligencia artificial para crear experiencias de aprendizaje personalizadas. El backend proporciona:
 
-## Project setup
+- 🔐 Sistema de autenticación con JWT
+- 👨‍🏫 Gestión de profesores y estudiantes
+- 🏫 Administración de aulas y cursos
+- 🎮 Actividades interactivas (flashcards, juegos de memoria, quiz)
+- 💭 Tracking de emociones y engagement
+- 📊 Dashboard con analytics para profesores
+- 🤖 Integración con IA (n8n + Ollama) para generación de contenido
+- 📚 API REST completa con Swagger/OpenAPI
 
-```bash
-$ npm install
-```
+---
 
-## Compile and run the project
+## 🚀 Quick Start
 
-```bash
-# development
-$ npm run start
+### Prerrequisitos
+- Node.js v18+
+- Docker Desktop
+- Git
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+### Instalación Rápida
 
 ```bash
-# unit tests
-$ npm run test
+# 1. Clonar repositorio
+git clone https://github.com/CarlitoUwU/backend-EduPlay.git
+cd backend-EduPlay
 
-# e2e tests
-$ npm run test:e2e
+# 2. Instalar dependencias
+npm install
 
-# test coverage
-$ npm run test:cov
+# 3. Configurar variables de entorno
+cp .env.example .env
+
+# 4. Levantar servicios Docker
+docker-compose up -d
+
+# 5. Aplicar migraciones
+npx prisma migrate deploy
+
+# 6. Poblar base de datos
+npm run seed
+
+# 7. Iniciar servidor
+npm run start:dev
 ```
 
-## Deployment
+✅ **Backend corriendo en**: http://localhost:3000  
+📚 **Swagger UI**: http://localhost:3000/api/docs
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📖 Documentación Completa
+
+📘 **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Guía paso a paso para desplegar en cualquier PC  
+🐳 **[DOCKER_SETUP.md](./DOCKER_SETUP.md)** - Configuración detallada de Docker services  
+🧪 **[TESTING_GUIDE.md](./TESTING_GUIDE.md)** - Guía de testing de endpoints  
+📊 **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** - Estado del proyecto y roadmap
+
+---
+
+## 🏗️ Arquitectura
+
+### Stack Tecnológico
+
+| Categoría | Tecnología |
+|-----------|------------|
+| **Framework** | NestJS 11 |
+| **Lenguaje** | TypeScript 5 |
+| **Base de Datos** | PostgreSQL 15 |
+| **ORM** | Prisma 6.18 |
+| **Autenticación** | JWT + Bcrypt |
+| **Documentación** | Swagger/OpenAPI |
+| **Workflows IA** | n8n |
+| **IA Local** | Ollama (phi3/mistral) |
+| **Containerización** | Docker Compose |
+
+### Diagrama de Servicios
+
+```
+┌─────────────────────────────────────────────────┐
+│                  Backend NestJS                 │
+│                  localhost:3000                 │
+│                                                 │
+│  Modules: Auth, Course, Classroom, Activity,   │
+│  Enrollment, Interaction, Student, Teacher     │
+└──────────┬──────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────┐
+│           Docker Network (n8n_network)          │
+│                                                 │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────┐│
+│  │PostgreSQL│  │   n8n    │  │   Ollama     ││
+│  │  :5432   │  │  :5678   │  │   :11434     ││
+│  │          │  │          │  │              ││
+│  │ eduplay  │  │ Workflows│  │  AI Models   ││
+│  │ n8n (db) │  │ UI + API │  │  (phi3/etc)  ││
+│  └──────────┘  └──────────┘  └──────────────┘│
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## 📦 Módulos Implementados
+
+### 🔐 Auth Module
+**Endpoints**: 1  
+Autenticación con JWT, login, manejo de tokens.
+
+### 📚 Course Module
+**Endpoints**: 5 (CRUD completo)  
+Gestión de cursos educativos.
+
+### 🏫 Classroom Module
+**Endpoints**: 5 (CRUD completo)  
+Administración de aulas y asignación de estudiantes.
+
+### 🎮 Activity Module
+**Endpoints**: 5 (CRUD completo)  
+Actividades con flashcards, juegos de memoria, relaciones y quiz.
+
+### 📝 Enrollment Module
+**Endpoints**: 4  
+Relación entre profesores, aulas y cursos.
+
+### 💭 Interaction Module
+**Endpoints**: 6  
+Tracking de emociones, calificaciones y engagement de estudiantes.
+
+### 👨‍🎓 Student Module
+**Endpoints**: 7  
+Perfil de estudiante, actividades disponibles, historial.
+
+### 👨‍🏫 Teacher Module
+**Endpoints**: 8  
+Dashboard con estadísticas, identificación de riesgo, métricas por aula.
+
+**Total**: **41 endpoints REST**
+
+---
+
+## 🗄️ Modelo de Datos
+
+El schema de Prisma incluye 16 modelos:
+
+- `User` (con roles: STUDENT, TEACHER, ADMIN)
+- `Student` / `Teacher`
+- `Classroom` / `Course` / `Enrollment`
+- `Activity` (sesiones de aprendizaje)
+- `Flashcard` / `CardsMemory` / `PlayRelation`
+- `Quiz` / `Question` / `QuestionOpen` / `QuestionAudio`
+- `ExtraMaterial`
+- `Interaction` (con emociones: POSITIVO, NEUTRAL, NEGATIVO)
+
+Ver `prisma/schema.prisma` para detalles completos.
+
+---
+
+## 🔧 Comandos Disponibles
+
+### Desarrollo
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Modo desarrollo con hot reload
+npm run start:dev
+
+# Compilar proyecto
+npm run build
+
+# Modo producción
+npm run start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Base de Datos
 
-## Resources
+```bash
+# Aplicar migraciones
+npx prisma migrate deploy
 
-Check out a few resources that may come in handy when working with NestJS:
+# Crear nueva migración
+npx prisma migrate dev --name nombre_migracion
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Poblar datos de prueba
+npm run seed
 
-## Support
+# Abrir Prisma Studio (UI)
+npx prisma studio
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Docker
 
-## Stay in touch
+```bash
+# Levantar servicios
+docker-compose up -d
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Ver logs
+docker-compose logs -f
 
-## License
+# Detener servicios
+docker-compose down
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Resetear todo (⚠️ elimina datos)
+docker-compose down -v
+```
+
+### Testing
+
+```bash
+# Tests unitarios
+npm run test
+
+# Tests e2e
+npm run test:e2e
+
+# Coverage
+npm run test:cov
+```
+
+---
+
+## 🔑 Credenciales de Prueba
+
+Después de ejecutar `npm run seed`:
+
+### Profesor
+- **Email**: maria.garcia@eduplay.com
+- **Password**: password123
+
+### Estudiantes
+- **Email**: jose.rodriguez@eduplay.com | **Password**: password123
+- **Email**: ana.martinez@eduplay.com | **Password**: password123
+
+### n8n UI
+- **URL**: http://localhost:5678
+- **Usuario**: admin
+- **Password**: admin123
+
+---
+
+## 📊 APIs Disponibles
+
+### Core Endpoints
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `POST` | `/auth/login` | Login con JWT |
+| `GET` | `/course` | Listar cursos |
+| `GET` | `/classroom` | Listar aulas |
+| `GET` | `/activity` | Listar actividades |
+| `GET` | `/student/:id/activities` | Actividades de estudiante |
+| `GET` | `/teacher/:id/dashboard` | Dashboard del profesor |
+| `GET` | `/interaction/activity/:id/statistics` | Estadísticas de actividad |
+
+Ver documentación completa en: **http://localhost:3000/api/docs**
+
+---
+
+## 🤖 Integración con IA
+
+### n8n Workflows
+URL: http://localhost:5678
+
+Casos de uso:
+- Generación automática de flashcards
+- Creación de preguntas de quiz
+- Análisis de sentimientos
+- Generación de material educativo
+
+### Ollama (Local AI)
+URL: http://localhost:11434
+
+```bash
+# Descargar modelo
+docker exec -it ollama ollama pull phi3
+
+# Listar modelos
+docker exec -it ollama ollama list
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Puerto en uso
+```bash
+# Verificar qué usa el puerto
+netstat -ano | findstr :3000
+netstat -ano | findstr :5432
+```
+
+### Database no existe
+```bash
+# Resetear Docker
+docker-compose down -v
+Remove-Item -Recurse -Force ./postgres_data
+docker-compose up -d
+npx prisma migrate deploy
+```
+
+### Errores de Prisma
+```bash
+# Regenerar cliente
+npx prisma generate
+
+# Resetear DB
+npx prisma migrate reset
+```
+
+Ver más en [DEPLOYMENT.md](./DEPLOYMENT.md#-troubleshooting)
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+backend-EduPlay/
+├── prisma/
+│   ├── schema.prisma          # Modelo de datos
+│   ├── seed.ts                # Script de seed
+│   └── migrations/            # Historial de migraciones
+├── src/
+│   ├── app/                   # Módulo principal
+│   ├── modules/
+│   │   ├── auth/              # Autenticación JWT
+│   │   ├── course/            # Gestión de cursos
+│   │   ├── classroom/         # Gestión de aulas
+│   │   ├── activity/          # Actividades gamificadas
+│   │   ├── enrollment/        # Inscripciones
+│   │   ├── interaction/       # Tracking de emociones
+│   │   ├── student/           # Perfil de estudiante
+│   │   └── teacher/           # Dashboard profesor
+│   ├── prisma.service.ts      # Servicio Prisma
+│   └── main.ts                # Bootstrap
+├── docker-compose.yml         # Servicios Docker
+├── .env.example               # Variables de entorno ejemplo
+├── DEPLOYMENT.md              # Guía de despliegue
+├── DOCKER_SETUP.md            # Configuración Docker
+└── README.md                  # Este archivo
+```
+
+---
+
+## 🤝 Contribuir
+
+1. Fork el proyecto
+2. Crea una rama (`git checkout -b feature/amazing-feature`)
+3. Commit tus cambios (`git commit -m 'Add amazing feature'`)
+4. Push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
+
+---
+
+## 📄 Licencia
+
+Este proyecto es parte de un hackathon educativo.
+
+---
+
+## 🌟 Equipo
+
+Desarrollado con ❤️ para **Hack4Edu**
+
+---
+
+## 📞 Soporte
+
+- 📚 Documentación: Ver archivos `.md` en el repo
+- 🐛 Issues: [GitHub Issues](https://github.com/CarlitoUwU/backend-EduPlay/issues)
+- 💬 Swagger UI: http://localhost:3000/api/docs
+
+---
+
+## ✨ Características Destacadas
+
+- ✅ **100% TypeScript** con tipado estricto
+- ✅ **Swagger/OpenAPI** documentación automática
+- ✅ **Prisma ORM** con migraciones versionadas
+- ✅ **Docker Compose** para desarrollo local
+- ✅ **JWT Authentication** seguro con bcrypt
+- ✅ **Seed data** para testing rápido
+- ✅ **41 endpoints REST** completamente funcionales
+- ✅ **Integración IA** lista con n8n + Ollama
+- ✅ **Dashboard analytics** para profesores
+- ✅ **Tracking de emociones** en tiempo real
+
+---
+
+**¡Listo para educar con gamificación e IA!** 🚀📚🎮
