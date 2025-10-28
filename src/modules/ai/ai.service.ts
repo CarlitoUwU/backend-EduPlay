@@ -12,6 +12,15 @@ import {
 import { ChatDto } from './dto/chat.dto';
 import { ChatResponseDto } from './dto/chat-response.dto';
 import { Emotion } from '@prisma/client';
+import {
+  ActivityWithEnrollment,
+  AIGeneratedData,
+  CardsMemoryData,
+  FlashcardData,
+  PlayRelationData,
+  QuestionData,
+  QuestionOpenData,
+} from './dto/others.dto';
 
 @Injectable()
 export class AiService {
@@ -71,7 +80,7 @@ export class AiService {
         throw new Error(`n8n webhook error: ${response.statusText}`);
       }
 
-      const aiGeneratedData = await response.json();
+      const aiGeneratedData = (await response.json()) as AIGeneratedData;
 
       // Guardar contenido generado en la base de datos
       const result = await this.saveGeneratedContent(
@@ -85,8 +94,10 @@ export class AiService {
         status: 'success',
         message: 'Contenido generado exitosamente por IA',
       };
-    } catch (error) {
-      this.logger.error(`Error generando contenido IA: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Error desconocido';
+      this.logger.error(`Error generando contenido IA: ${errorMessage}`);
 
       // Si n8n falla, generar contenido de fallback básico
       return this.generateFallbackContent(activityId, generateDto);
@@ -98,7 +109,7 @@ export class AiService {
    */
   private async saveGeneratedContent(
     activityId: string,
-    aiData: any,
+    aiData: AIGeneratedData,
   ): Promise<{
     flashcardsCreated: number;
     cardsMemoryCreated: number;
@@ -113,7 +124,7 @@ export class AiService {
     // Guardar Flashcards
     if (aiData.flashcards && aiData.flashcards.length > 0) {
       await this.prisma.flashcard.createMany({
-        data: aiData.flashcards.map((fc: any) => ({
+        data: aiData.flashcards.map((fc: FlashcardData) => ({
           question: fc.question,
           answer: fc.answer,
           activity_id: activityId,
@@ -125,7 +136,7 @@ export class AiService {
     // Guardar CardsMemory (pares de memoria)
     if (aiData.cardsMemory && aiData.cardsMemory.length > 0) {
       await this.prisma.cardsMemory.createMany({
-        data: aiData.cardsMemory.map((cm: any) => ({
+        data: aiData.cardsMemory.map((cm: CardsMemoryData) => ({
           card1: cm.card1,
           card2: cm.card2,
           activity_id: activityId,
@@ -137,7 +148,7 @@ export class AiService {
     // Guardar PlayRelation (juego de relaciones)
     if (aiData.playRelations && aiData.playRelations.length > 0) {
       await this.prisma.playRelation.createMany({
-        data: aiData.playRelations.map((pr: any) => ({
+        data: aiData.playRelations.map((pr: PlayRelationData) => ({
           item1: pr.item1,
           item2: pr.item2,
           activity_id: activityId,
@@ -158,7 +169,7 @@ export class AiService {
       // Crear preguntas múltiple opción
       if (aiData.quiz.questions.length > 0) {
         await this.prisma.question.createMany({
-          data: aiData.quiz.questions.map((q: any) => ({
+          data: aiData.quiz.questions.map((q: QuestionData) => ({
             question: q.question,
             optionA: q.optionA,
             optionB: q.optionB,
@@ -174,7 +185,7 @@ export class AiService {
       // Crear preguntas abiertas si existen
       if (aiData.quiz.questionsOpen && aiData.quiz.questionsOpen.length > 0) {
         await this.prisma.questionOpen.createMany({
-          data: aiData.quiz.questionsOpen.map((q: any) => ({
+          data: aiData.quiz.questionsOpen.map((q: QuestionOpenData) => ({
             question: q.question,
             answer: q.answer,
             quiz_id: quiz.id,
@@ -281,15 +292,18 @@ export class AiService {
         throw new Error(`n8n webhook error: ${response.statusText}`);
       }
 
-      const result = await response.json();
+      const result: EmotionAnalysisResponseDto =
+        (await response.json()) as EmotionAnalysisResponseDto;
 
       return {
-        emotion: result.emotion as Emotion,
+        emotion: result.emotion,
         engagement: result.engagement,
         analysis: result.analysis,
       };
-    } catch (error) {
-      this.logger.error(`Error en análisis de emoción: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Error desconocido';
+      this.logger.error(`Error en análisis de emoción: ${errorMessage}`);
 
       // Fallback: análisis básico por calificación
       return this.analyzeEmotionFallback(analyzeDto);
@@ -381,7 +395,12 @@ export class AiService {
         throw new Error(`n8n webhook error: ${chatResponse.statusText}`);
       }
 
-      const { botResponse } = await chatResponse.json();
+      const parsed = (await chatResponse.json()) as { botResponse?: string };
+      const botResponse =
+        parsed.botResponse ??
+        'Lo siento, no tuve respuesta del servicio de IA.';
+
+      this.logger.log(`Respuesta del bot IA: ${botResponse}`);
 
       // 4. Analizar emoción del mensaje del estudiante
       const emotionAnalysis = await this.analyzeEmotion({
@@ -414,8 +433,10 @@ export class AiService {
         shouldContinue,
         conversationCount,
       };
-    } catch (error) {
-      this.logger.error(`Error procesando chat: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Error desconocido';
+      this.logger.error(`Error procesando chat: ${errorMessage}`);
 
       // Fallback: respuesta genérica
       return this.generateFallbackChatResponse(activity, chatDto);
@@ -426,7 +447,7 @@ export class AiService {
    * Genera respuesta de chat de fallback sin IA
    */
   private generateFallbackChatResponse(
-    activity: any,
+    activity: ActivityWithEnrollment,
     chatDto: ChatDto,
   ): ChatResponseDto {
     const conversationCount = chatDto.conversation_history.length + 1;
