@@ -20,11 +20,12 @@ Backend de la plataforma educativa gamificada **EduPlay** - Sistema de gestión 
 - 🎮 Actividades gamificadas (flashcards, memoria, quiz)
 - 💭 Tracking de emociones y engagement
 - 📊 Dashboard analytics para profesores
-- 🤖 IA integrada (n8n + Ollama) para generación de contenido
+- 🤖 **IA integrada (n8n + Ollama)** para generación automática de contenido
+- 🎯 **Generación AI** de flashcards, juegos y quiz por tema
 - 📚 API REST con documentación Swagger/OpenAPI
 - 🐳 Stack completo con Docker Compose
 
-**41 endpoints REST** implementados | **16 modelos de datos** | **8 módulos funcionales**
+**67 endpoints REST** implementados | **16 modelos de datos** | **13 módulos funcionales**
 
 ---
 
@@ -86,7 +87,8 @@ npm run start:dev
 ```
 ┌──────────────────────────────────────────────┐
 │         Backend NestJS :3000                 │
-│  41 Endpoints | 8 Módulos | Swagger Docs    │
+│  67 Endpoints | 13 Módulos | Swagger Docs   │
+│  🤖 AI Integration (Ollama + n8n)           │
 └──────────┬───────────────────────────────────┘
            │
            ▼
@@ -101,6 +103,9 @@ npm run start:dev
 │  │ • n8n (db) │ │Workflows│ │ (phi3)    │ │
 │  └────────────┘ └─────────┘ └───────────┘ │
 └──────────────────────────────────────────────┘
+
+Flujo de Generación AI:
+Backend → n8n webhook → Ollama (phi3) → Genera contenido → Guarda en DB
 ```
 
 **Stack Tecnológico:**
@@ -125,22 +130,50 @@ npm run start:dev
 | **Interaction** | 6 | Tracking de emociones, grades y engagement |
 | **Student** | 7 | Perfil, actividades, historial |
 | **Teacher** | 8 | Dashboard, estadísticas, identificación de riesgo |
+| **🤖 AI** | 2 | **Generación de contenido con IA + Análisis de emociones** |
+| **Flashcard** | 6 | CRUD de flashcards + por actividad |
+| **CardsMemory** | 6 | CRUD de juego de memoria + por actividad |
+| **PlayRelation** | 6 | CRUD de juego de relaciones + por actividad |
+| **Quiz** | 6 | CRUD de quiz + por actividad |
 
-**Total: 41 endpoints REST**
+**Total: 67 endpoints REST** (41 base + 26 AI/Content)
 
 ### Endpoints principales:
 
-```
+```bash
+# Autenticación
 POST   /auth/login              # Login con JWT
+
+# Gestión básica
 GET    /course                  # Listar cursos
 GET    /classroom               # Listar aulas
 GET    /activity                # Listar actividades
+
+# Estudiante
 GET    /student/:id/activities  # Actividades del estudiante
+
+# Profesor
 GET    /teacher/:id/dashboard   # Dashboard completo del profesor
+
+# Analytics
 GET    /interaction/activity/:id/statistics  # Estadísticas de actividad
+
+# 🤖 IA - Generación de Contenido (NUEVO)
+POST   /ai/generate-content/:activityId      # Generar todo con IA (min 3 de cada tipo)
+POST   /ai/analyze-emotion                    # Analizar emoción del estudiante
+
+# Contenido por Actividad (NUEVO - crítico para frontend)
+GET    /flashcard/activity/:activityId        # Obtener flashcards
+GET    /cards-memory/activity/:activityId     # Obtener pares de memoria
+GET    /play-relation/activity/:activityId    # Obtener relaciones
+GET    /quiz/activity/:activityId             # Obtener quiz completo
 ```
 
-Ver documentación completa: **http://localhost:3000/api**
+**Ver documentación completa:** http://localhost:3000/api
+
+**Guía de workflows n8n:** `N8N_WORKFLOWS_GUIDE.md`
+
+**Documentación de endpoints AI:** `NEW_ENDPOINTS.md`
 
 ---
 
@@ -173,6 +206,81 @@ Ver documentación completa: **http://localhost:3000/api**
 - `Interaction` - Emociones (POSITIVO | NEUTRAL | NEGATIVO), grades, engagement
 
 Ver schema completo: `prisma/schema.prisma`
+
+---
+
+## 🤖 Sistema de IA (Generación de Contenido)
+
+### Arquitectura AI
+
+```
+┌─────────────┐      POST      ┌──────────┐    Webhook    ┌─────────┐
+│   Frontend  │ ─────────────> │  NestJS  │ ────────────> │   n8n   │
+│             │  /ai/generate  │  AI Svc  │  localhost    │Workflow │
+└─────────────┘                └──────────┘     :5678     └────┬────┘
+                                     ▲                          │
+                                     │                          │ Prompt
+                                     │ Guarda DB                ▼
+                                     │                    ┌──────────┐
+                                     └────────────────────│  Ollama  │
+                                       3+ items/tipo      │  (phi3)  │
+                                                          └──────────┘
+```
+
+### Funcionalidades AI
+
+**1. Generación Automática de Contenido:**
+```typescript
+POST /ai/generate-content/:activityId
+Body: {
+  "topic": "La Colonia en Perú",
+  "context": "Periodo histórico 1532-1821",
+  "minItems": 3  // Mínimo de elementos a generar por tipo
+}
+```
+
+Genera automáticamente:
+- ✅ Mínimo 3 Flashcards (pregunta/respuesta)
+- ✅ Mínimo 3 CardsMemory (pares de conceptos)
+- ✅ Mínimo 3 PlayRelation (relaciones lógicas)
+- ✅ Mínimo 3 Preguntas de Quiz (múltiple opción)
+
+**2. Análisis de Emociones:**
+```typescript
+POST /ai/analyze-emotion
+Body: {
+  "text": "Me gustó mucho, aprendí bastante",
+  "grade": 8
+}
+```
+
+Retorna:
+- Emoción detectada (POSITIVO/NEUTRAL/NEGATIVO)
+- Nivel de engagement (0-1)
+- Análisis detallado del sentimiento
+
+### Modo Fallback
+
+Si n8n/Ollama no están disponibles, el sistema automáticamente:
+- Genera contenido básico de plantilla
+- Análisis de emoción basado en calificación
+- Garantiza que la app funcione sin dependencias AI
+
+### Configuración n8n
+
+Ver guía completa: **`N8N_WORKFLOWS_GUIDE.md`**
+
+**Quick Setup:**
+1. Acceder a http://localhost:5678
+2. Login: `admin` / `admin123`
+3. Importar workflows desde la guía
+4. Configurar webhooks en `/webhook/generate-content` y `/webhook/analyze-emotion`
+5. Conectar con Ollama node (`http://ollama:11434`)
+
+**Variables de entorno:**
+```bash
+N8N_WEBHOOK_URL=http://localhost:5678/webhook  # En .env
+```
 
 ---
 
