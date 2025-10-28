@@ -1,112 +1,77 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBody,
-} from '@nestjs/swagger';
+import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentDto } from './dto/student.dto';
 
-@ApiTags('Student')
+@ApiTags('students')
 @Controller('student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
   @Post()
-  @ApiOperation({
-    summary: 'Crear un nuevo estudiante',
-    description:
-      'Crea un nuevo estudiante junto con su usuario asociado (rol STUDENT) y lo asigna a un aula.',
-  })
-  @ApiBody({ type: CreateStudentDto })
-  @ApiResponse({
-    status: 201,
-    description: 'Estudiante creado exitosamente.',
-    type: StudentDto,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Datos inválidos o campos requeridos faltantes.',
-  })
+  @ApiOperation({ summary: 'Create a new student' })
+  @ApiResponse({ status: 201, description: 'Student created successfully', type: StudentDto })
+  @ApiResponse({ status: 404, description: 'User or Classroom not found' })
   create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
   }
 
   @Get()
-  @ApiOperation({
-    summary: 'Listar todos los estudiantes',
-    description:
-      'Obtiene una lista completa de los estudiantes registrados en el sistema.',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Lista de estudiantes obtenida correctamente.',
-    type: [StudentDto],
-  })
-  findAll() {
-    return this.studentService.findAll();
+  @ApiOperation({ summary: 'Get all students with optional filters' })
+  @ApiQuery({ name: 'classroomId', required: false, description: 'Filter by classroom ID' })
+  @ApiResponse({ status: 200, description: 'List of students', type: [StudentDto] })
+  findAll(@Query('classroomId') classroomId?: string) {
+    return this.studentService.findAll(classroomId);
+  }
+
+  @Get('user/:userId')
+  @ApiOperation({ summary: 'Get student by user ID' })
+  @ApiResponse({ status: 200, description: 'Student found', type: StudentDto })
+  @ApiResponse({ status: 404, description: 'Student not found' })
+  findByUserId(@Param('userId') userId: string) {
+    return this.studentService.findByUserId(userId);
   }
 
   @Get(':id')
-  @ApiOperation({
-    summary: 'Obtener un estudiante por su ID',
-    description:
-      'Devuelve la información detallada de un estudiante según su identificador único.',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'ID único del estudiante',
-    type: String,
-    example: 'uuid-student',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Estudiante encontrado correctamente.',
-    type: StudentDto,
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'No se encontró un estudiante con el ID especificado.',
-  })
+  @ApiOperation({ summary: 'Get a student by ID with full details' })
+  @ApiResponse({ status: 200, description: 'Student found', type: StudentDto })
+  @ApiResponse({ status: 404, description: 'Student not found' })
   findOne(@Param('id') id: string) {
     return this.studentService.findOne(id);
   }
 
-  @Get('user/:id')
-  @ApiOperation({
-    summary: 'Buscar estudiante por ID de usuario',
-    description:
-      'Obtiene la información de un estudiante en función del ID de su usuario asociado.',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'ID único del usuario',
-    type: String,
-    example: 'uuid-user',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Estudiante encontrado correctamente.',
-    type: StudentDto,
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'No se encontró un estudiante con el usuario especificado.',
-  })
-  findByUserId(@Param('id') id: string) {
-    return this.studentService.findByUserId(id);
+  @Get(':id/activities')
+  @ApiOperation({ summary: 'Get all activities available for a student' })
+  @ApiResponse({ status: 200, description: 'Student activities' })
+  @ApiResponse({ status: 404, description: 'Student not found' })
+  getActivities(@Param('id') id: string) {
+    return this.studentService.getActivities(id);
   }
-}
 
-/* @Patch(':id')
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update a student' })
+  @ApiResponse({ status: 200, description: 'Student updated successfully', type: StudentDto })
+  @ApiResponse({ status: 404, description: 'Student not found' })
   update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentService.update(+id, updateStudentDto);
+    return this.studentService.update(id, updateStudentDto);
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a student' })
+  @ApiResponse({ status: 200, description: 'Student deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Student not found' })
   remove(@Param('id') id: string) {
-    return this.studentService.remove(+id);
-  } */
+    return this.studentService.remove(id);
+  }
+}

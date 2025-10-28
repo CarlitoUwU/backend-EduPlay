@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated"
 }
 
 datasource db {
@@ -85,6 +84,7 @@ model Activity {
   hasIntroduction Boolean       @default(true)
   enrollment     Enrollment      @relation(fields: [enrollment_id], references: [id])
   enrollment_id  String
+  start_time     DateTime?
   createdAt      DateTime        @default(now())
   end_time       DateTime
   flashcards     Flashcard[]
