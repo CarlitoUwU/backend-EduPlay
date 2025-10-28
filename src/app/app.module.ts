@@ -15,6 +15,7 @@ import { FlashcardModule } from '@/modules/flashcard/flashcard.module';
 import { CardsMemoryModule } from '@/modules/cards-memory/cards-memory.module';
 import { PlayRelationModule } from '@/modules/play-relation/play-relation.module';
 import { QuizModule } from '@/modules/quiz/quiz.module';
+import { UserModule } from '@/modules/user/user.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { QuizModule } from '@/modules/quiz/quiz.module';
     CardsMemoryModule,
     PlayRelationModule,
     QuizModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
