@@ -68,7 +68,7 @@ export class UserController {
   @ApiParam({
     name: 'id',
     description: 'Unique identifier of the user',
-    example: 'clm123abc456def789',
+    example: '550e8400-e29b-41d4-a716-446655440000',
     type: String,
   })
   @ApiOkResponse({
@@ -90,7 +90,7 @@ export class UserController {
   @ApiParam({
     name: 'id',
     description: 'Unique identifier of the user to update',
-    example: 'clm123abc456def789',
+    example: '550e8400-e29b-41d4-a716-446655440000',
     type: String,
   })
   @ApiBody({
@@ -119,7 +119,7 @@ export class UserController {
   @ApiParam({
     name: 'id',
     description: 'Unique identifier of the user to delete',
-    example: 'clm123abc456def789',
+    example: '550e8400-e29b-41d4-a716-446655440000',
     type: String,
   })
   @ApiOkResponse({
