@@ -60,7 +60,9 @@ export class ActivityController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obtener una actividad por su ID con todo el contenido' })
+  @ApiOperation({
+    summary: 'Obtener una actividad por su ID con todo el contenido',
+  })
   @ApiParam({
     name: 'id',
     description: 'UUID de la actividad',
@@ -109,5 +111,15 @@ export class ActivityController {
   @ApiResponse({ status: 404, description: 'Actividad no encontrada' })
   remove(@Param('id') id: string): Promise<ActivityDto> {
     return this.activityService.remove(id);
+  }
+
+  @Get('recently/:teacherId')
+  recentActivitiesByTeacher(@Param('teacherId') teacherId: string) {
+    return this.activityService.recentActivitiesByTeacher(teacherId);
+  }
+
+  @Get('upcoming/:teacherId')
+  getUpcomingActivitiesByTeacher(@Param('teacherId') teacherId: string) {
+    return this.activityService.getUpcomingActivitiesByTeacher(teacherId);
   }
 }

@@ -5,7 +5,7 @@ import { EnrollmentDto } from './dto/enrollment.dto';
 
 @Injectable()
 export class EnrollmentService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
 
   async create(
     createEnrollmentDto: CreateEnrollmentDto,
@@ -46,8 +46,8 @@ export class EnrollmentService {
     });
   }
 
-  async findAll(): Promise<EnrollmentDto[]> {
-    return await this.prismaService.enrollment.findMany({
+  async findAll(): Promise<any[]> {
+    const enrollments = await this.prismaService.enrollment.findMany({
       include: {
         teacher: {
           include: {
@@ -59,10 +59,41 @@ export class EnrollmentService {
             },
           },
         },
-        classroom: true,
+        classroom: {
+          include: {
+            students: {
+              select: {
+                id: true,
+                grade: true,
+              },
+            },
+          },
+        },
         course: true,
       },
     });
+
+    // Añadimos el conteo de estudiantes por clase y grados de los estudiantes
+    const result = enrollments.map((enrollment) => {
+      const totalStudents = enrollment.classroom.students.length;
+      const grades = enrollment.classroom.students.map(
+        (student) => student.grade,
+      );
+      const uniqueGrades = [...new Set(grades)].sort();
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { students: _students, ...classroomWithoutStudents } =
+        enrollment.classroom;
+
+      return {
+        ...enrollment,
+        totalStudents,
+        grades: uniqueGrades,
+        classroom: classroomWithoutStudents,
+      };
+    });
+
+    return result;
   }
 
   async findOne(id: string): Promise<EnrollmentDto> {
@@ -105,14 +136,55 @@ export class EnrollmentService {
     return enrollment;
   }
 
-  async findByTeacher(teacherId: string): Promise<EnrollmentDto[]> {
-    return await this.prismaService.enrollment.findMany({
+  async findByTeacher(teacherId: string): Promise<any[]> {
+    const enrollments = await this.prismaService.enrollment.findMany({
       where: { teacher_id: teacherId },
       include: {
-        classroom: true,
+        teacher: {
+          include: {
+            user: {
+              select: {
+                full_name: true,
+                email: true,
+              },
+            },
+          },
+        },
+        classroom: {
+          include: {
+            students: {
+              select: {
+                id: true,
+                grade: true,
+              },
+            },
+          },
+        },
         course: true,
       },
     });
+
+    // Añadimos el conteo de estudiantes por clase y grados de los estudiantes
+    const result = enrollments.map((enrollment) => {
+      const totalStudents = enrollment.classroom.students.length;
+      const grades = enrollment.classroom.students.map(
+        (student) => student.grade,
+      );
+      const uniqueGrades = [...new Set(grades)].sort();
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { students: _students, ...classroomWithoutStudents } =
+        enrollment.classroom;
+
+      return {
+        ...enrollment,
+        totalStudents,
+        grades: uniqueGrades,
+        classroom: classroomWithoutStudents,
+      };
+    });
+
+    return result;
   }
 
   async remove(id: string): Promise<EnrollmentDto> {

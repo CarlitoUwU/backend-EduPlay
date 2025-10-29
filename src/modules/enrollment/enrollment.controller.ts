@@ -57,7 +57,7 @@ export class EnrollmentController {
   })
   async findAll(
     @Query('teacherId') teacherId?: string,
-  ): Promise<EnrollmentDto[]> {
+  ) {
     if (teacherId) {
       return this.enrollmentService.findByTeacher(teacherId);
     }

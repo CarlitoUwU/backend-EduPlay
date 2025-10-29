@@ -399,4 +399,105 @@ export class TeacherService {
       where: { id },
     });
   }
+
+  async getEmotionStats(teacherId: string) {
+    const interactions = await this.prisma.interaction.findMany({
+      where: {
+        activity: {
+          enrollment: {
+            teacher_id: teacherId,
+          },
+        },
+      },
+      select: { emotion: true },
+    });
+
+    const counts = { POSITIVO: 0, NEUTRAL: 0, NEGATIVO: 0 };
+
+    for (const interaction of interactions) {
+      if (interaction.emotion in counts) {
+        counts[interaction.emotion]++;
+      }
+    }
+
+    const total = interactions.length || 1;
+
+    return {
+      emotionStats: {
+        POSITIVO: Math.round((counts.POSITIVO / total) * 100),
+        NEUTRAL: Math.round((counts.NEUTRAL / total) * 100),
+        NEGATIVO: Math.round((counts.NEGATIVO / total) * 100),
+      },
+    };
+  }
+
+  async getOverallStats(teacherId: string) {
+    // Total de estudiantes únicos que han interactuado con actividades del profesor
+    const totalStudents = await this.prisma.student.count({
+      where: {
+        interactions: {
+          some: {
+            activity: {
+              enrollment: { teacher_id: teacherId },
+            },
+          },
+        },
+      },
+    });
+
+    // Total de aulas del docente
+    const totalClassrooms = await this.prisma.classroom.count({
+      where: {
+        enrollments: {
+          some: { teacher_id: teacherId },
+        },
+      },
+    });
+
+    // Actividades totales
+    const activeActivities = await this.prisma.activity.count({
+      where: {
+        enrollment: { teacher_id: teacherId },
+      },
+    });
+
+    // Promedios de engagement y nota (grade)
+    const aggregated = await this.prisma.interaction.aggregate({
+      where: {
+        activity: {
+          enrollment: { teacher_id: teacherId },
+        },
+      },
+      _avg: {
+        engagement: true,
+        grade: true,
+      },
+    });
+
+    // Sesiones de esta semana (interacciones de los últimos 7 días)
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const sessionsThisWeek = await this.prisma.interaction.count({
+      where: {
+        activity: {
+          enrollment: { teacher_id: teacherId },
+        },
+        createdAt: {
+          gte: oneWeekAgo,
+        },
+      },
+    });
+
+    return {
+      overallStats: {
+        totalStudents,
+        totalClassrooms,
+        activeActivities,
+        avgEngagement: Math.round(aggregated._avg.engagement || 0),
+        avgProgress: Math.round(aggregated._avg.grade || 0),
+        sessionsThisWeek,
+      },
+    };
+  }
 }

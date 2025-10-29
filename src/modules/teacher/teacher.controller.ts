@@ -20,7 +20,11 @@ export class TeacherController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new teacher' })
-  @ApiResponse({ status: 201, description: 'Teacher created successfully', type: TeacherDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Teacher created successfully',
+    type: TeacherDto,
+  })
   @ApiResponse({ status: 404, description: 'User not found' })
   create(@Body() createTeacherDto: CreateTeacherDto) {
     return this.teacherService.create(createTeacherDto);
@@ -28,7 +32,11 @@ export class TeacherController {
 
   @Get()
   @ApiOperation({ summary: 'Get all teachers' })
-  @ApiResponse({ status: 200, description: 'List of teachers', type: [TeacherDto] })
+  @ApiResponse({
+    status: 200,
+    description: 'List of teachers',
+    type: [TeacherDto],
+  })
   findAll() {
     return this.teacherService.findAll();
   }
@@ -50,7 +58,9 @@ export class TeacherController {
   }
 
   @Get(':id/dashboard')
-  @ApiOperation({ summary: 'Get teacher dashboard with comprehensive statistics' })
+  @ApiOperation({
+    summary: 'Get teacher dashboard with comprehensive statistics',
+  })
   @ApiResponse({ status: 200, description: 'Teacher dashboard data' })
   @ApiResponse({ status: 404, description: 'Teacher not found' })
   getDashboard(@Param('id') id: string) {
@@ -70,7 +80,11 @@ export class TeacherController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a teacher' })
-  @ApiResponse({ status: 200, description: 'Teacher updated successfully', type: TeacherDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Teacher updated successfully',
+    type: TeacherDto,
+  })
   @ApiResponse({ status: 404, description: 'Teacher not found' })
   update(@Param('id') id: string, @Body() updateTeacherDto: UpdateTeacherDto) {
     return this.teacherService.update(id, updateTeacherDto);
@@ -82,5 +96,15 @@ export class TeacherController {
   @ApiResponse({ status: 404, description: 'Teacher not found' })
   remove(@Param('id') id: string) {
     return this.teacherService.remove(id);
+  }
+
+  @Get(':teacherId/emotion-stats')
+  async getEmotionStats(@Param('teacherId') teacherId: string) {
+    return this.teacherService.getEmotionStats(teacherId);
+  }
+
+  @Get(':teacherId/overall-stats')
+  async getOverallStats(@Param('teacherId') teacherId: string) {
+    return this.teacherService.getOverallStats(teacherId);
   }
 }
