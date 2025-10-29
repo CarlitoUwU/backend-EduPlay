@@ -4,10 +4,12 @@ Esta carpeta contiene los workflows de n8n necesarios para el sistema de IA de E
 
 ## 📁 Archivos Disponibles
 
-- **`all-workflows.json`**: Todos los workflows en un solo archivo (exportación completa)
-- **`1-generate-content.json`**: Workflow para generar contenido educativo gamificado
-- **`2-analyze-emotion.json`**: Workflow para análisis emocional de estudiantes
+- **`all-workflows.json`**: Todos los workflows en un solo archivo (exportación completa actualizada)
+- **`1-generate-content.json`**: Workflow modular para generar contenido educativo (5 endpoints especializados)
+- **`2-analyze-emotion.json`**: Workflow para análisis emocional de estudiantes con prompts mejorados
 - **`3-chat-conversation.json`**: Workflow para conversaciones dinámicas con estudiantes
+
+**Última actualización:** 29 de Octubre 2025 - Workflows actualizados con prompts basados en AI_PROMPTS.md
 
 ## 🚀 Importar Workflows en Otra Computadora
 
@@ -115,19 +117,24 @@ Usa el script de prueba completo:
 
 ## 📊 Descripción de Workflows
 
-### Workflow 1: Generate Educational Content
-- **Entrada**: `{ "prompt": "tema educativo" }`
-- **Salida**: Flashcards, Memoria, Relaciones, Quiz
-- **Tiempo aprox**: ~131 segundos
+### Workflow 1: Generate Educational Content (MODULAR)
+- **Endpoints disponibles:**
+  - `/webhook/generate-flashcards` - Solo flashcards
+  - `/webhook/generate-memory-pairs` - Solo pares de memoria
+  - `/webhook/generate-relations` - Solo relaciones
+  - `/webhook/generate-quiz` - Solo quiz
+  - `/webhook/generate-content` - Todo el contenido completo
 - **Modelo**: gemma2:2b
-- **Temperatura**: 0.7 (creativo)
+- **Características**: Prompts especializados basados en AI_PROMPTS.md para cada tipo de contenido
+- **Tiempo aprox**: Variable según endpoint (15-131 seg)
 
 ### Workflow 2: Analyze Student Emotion
 - **Entrada**: `{ "text": "respuesta", "grade": 85 }`
-- **Salida**: emotion, engagement, reason
+- **Salida**: emotion, engagement, reason, timestamp
 - **Tiempo aprox**: ~7 segundos
 - **Modelo**: gemma2:2b
 - **Temperatura**: 0.3 (preciso)
+- **Características**: Psicólogo educativo experto, análisis contextual peruano
 
 ### Workflow 3: Student Chat Conversation
 - **Entrada**: courseName, activityTitle, studentMessage, conversationHistory
@@ -135,6 +142,7 @@ Usa el script de prueba completo:
 - **Tiempo aprox**: ~4 segundos
 - **Modelo**: gemma2:2b
 - **Temperatura**: 0.8 (conversacional)
+- **Características**: Asistente motivador, respuestas breves y entusiastas
 
 ## 🔧 Troubleshooting
 
